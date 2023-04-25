@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lato&family=Poppins&family=Raleway:wght@500;700&display=swap">
+    <script src="https://kit.fontawesome.com/b4ce7bf6ff.js" crossorigin="anonymous"></script>
+    <title>Meme-Generator</title>
+</head>
+
+<body onload="onInitGallery()">
+
+    <div class="main-screen" onclick="onToggleMenu()"></div>
+
+    <header class="main-header flex space-between align-center">
+        <div class="logo"><img src="LOGO/LOGO.png" alt=""></div>
+        <nav class="main-nav container">
+            <ul class="clean-list flex">
+                <li><a href="#" onclick="onInitGallery()"> Gallery </a> </li>
+                <li><a href="#" onclick="onShowSavedMemes()"> Saved Memes </a> </li>
+                <li><a href="#" onclick="onShowAbout()">About</a></li>
+            </ul>
+            <button class="btn-menu" onclick="onToggleMenu()">☰</button>
+        </nav>
+    </header>
+
+    <main class="main-layout">
+
+        <section class="image-gallery">
+            <div class="search-header">
+                <section class="book-search">
+                    <input type="text" class="search-box" data-trans="book-search-placeholder"
+                        oninput="onSetFilterBy({name: value})" placeholder="Search..." />
+
+                    <div class="search-words-container">
+                        <li><a href=""></a>Funny</li>
+                        <li><a href=""></a>Animal</l>
+                        <li><a href=""></a>Men</li>
+                        <li><a href=""></a>Women</li>
+                        <li><a href=""></a>comic</li>
+                        <li><a href=""></a>smile</li>
+                    </div>
+                    <button class="btn more-btn">More</button>
+            </div>
+            <div class="image-container">
+                <!-- render through Javascript all images -->
+            </div>
+
+        </section>
+
+
+        <section class="meme-editor flex align-center justify-even">
+            <div class="canvas-container">
+                <canvas id="my-canvas" width="500" height="500"></canvas>
+            </div>
+
+            <div class="meme-control">
+                <ul class="meme-control-ul flex clean-list">
+                    <input type="text" name="" id="" oninput="onSetText(this.value)" placeholder="Add Meme Text">
+                    <li class="canvas-control">
+                        <button class="btn"><img src="ICONS/up-and-down-opposite-double-arrows-side-by-side.png"
+                                alt=""></button>
+                        <button class="btn"><img src="ICONS/add.png" alt=""></button>
+                        <button class="btn"><img src="ICONS/trash.png" alt=""></button>
+                    </li>
+                    <div class="button-container">
+                        <li class="edit-button">
+                            <button class="btn"><img src="ICONS/increase font - icon.png" alt=""></button>
+                            <button class="btn"><img src="ICONS/decrease font - icon.png" alt=""></button>
+                            <button class="btn"><img src="ICONS/align-to-left.png" alt=""></button>
+                            <button class="btn"><img src="ICONS/center-text-alignment.png" alt=""></button>
+                            <button class="btn"><img src="ICONS/align-to-right.png" alt=""></button>
+
+                        </li>
+                        <li class="edit-button">
+                            <select class="select-font">
+                                <option value="impact">Impact</option>
+                                <option value="arial">Arial</option>
+                            </select>
+                            <button class="">
+                                <i class="fa-solid fa-s"></i> <input type="color" oninput="onSetFillColor(this.value)">
+                            </button>
+                            <button class="btn btn-clr">
+                                <img src="ICONS/paint-board-and-brush.png" alt="">
+                                <input type="color" oninput="onSetStrokeColor(this.value)">
+                            </button>
+                        </li>
+                        <li>
+                    </div>
+                    <div class="meme-sticker-container">
+                    </div>
+                    </li>
+                    <li>
+                        <!-- add dropdown later -->
+                        <button class="btn share-btn"><i
+                                class="fa-sharp fa-solid fa-share-nodes"></i><span>Share</span></button>
+                        <button class="btn download-btn"><i
+                                class="fa-solid fa-down-to-line"></i><span>Download</span></button>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="about-container">
+
+        </section>
+
+    </main>
+    <script src="js/util.js"></script>
+    <script src="js/memeStorage.js"></script>
+    <script src="js/service/memeService.js"></script>
+    <script src="js/service/galleryService.js"></script>
+    <script src="js/controller/memeController.js"></script>
+    <script src="js/controller/galleryController.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
