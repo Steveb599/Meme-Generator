@@ -1,5 +1,6 @@
 'use strict'
 
+
 function loadFromStorage(key) {
     var val = localStorage.getItem(key)
     return JSON.parse(val)
@@ -12,7 +13,3 @@ function saveToStorage(key, val) {
 function saveMemetoStorage() {
     saveToStorage(STORAGE_KEY, meme)
 }
-
-// function loadMemeFromStorage() {
-
-// }
