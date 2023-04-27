@@ -10,7 +10,9 @@ function onInitGallery() {
 function renderGallery() {
     const container = document.querySelector('.image-container')
     let strHtmls = images.map(image => `${image.url}`)
-    container.innerHTML = strHtmls.join('')
+    strHtmls = `<div class="custom-file-input"><label for="img">Upload an Image</label>
+<input type="file" id="img" class="file-input" name="image" onchange="onImgInput(event)" style="display: none"></div>` + strHtmls.join('')
+    container.innerHTML = strHtmls
 }
 
 function onImgSelect(id) {
@@ -25,3 +27,4 @@ function onShowGallery() {
     elMemeEditor.hidden = false
     elImageGallery.hidden = true
 }
+

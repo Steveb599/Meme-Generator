@@ -21,10 +21,150 @@ canvas {
 
 canvas,
 .canvas-container {
-    margin-block-start: 40px;
+    border-radius: 5%;
+    margin-block-start: 10px;
 }
 
 .btn {
     width: 50px;
     height: 50px;
+    border-radius: 1em;
+    margin: 10px 5px;
+    cursor: pointer;
+    text-align: center;
+    padding: 10px;
+}
+
+.btn-clr {
+    padding-block: 15px;
+}
+
+.btn:hover {
+    scale: 1.1;
+
+}
+
+.canvas-control {
+    justify-content: center;
+}
+
+.meme-control {
+    margin-block-start: 20px;
+    background-color: #383b42;
+    border-radius: 2em;
+    width: 500px;
+    height: 500px;
+    flex-direction: column;
+    padding: 20px;
+}
+
+
+.meme-text-input {
+    width: 100%;
+    height: 2.5em;
+    box-shadow: 1px #bbc4d1;
+    font-size: 1em;
+    font-family: Poppins, sans-serif;
+}
+
+.meme-control,
+.button-container,
+.meme-text-input {
+    border-radius: 2em;
+}
+
+.button-container {
+    border-radius: 15px;
+    background-color: #827979;
+    padding: 10px;
+    margin-block-end: 15px;
+}
+
+.btn-line-switch {
+    background-color: #92aaff;
+}
+
+.btn-add-line {
+    background-color: #51c96b;
+}
+
+.btn-remove-line {
+    background-color: #f13232;
+}
+
+.sticker-container {
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #abdae1;
+}
+
+input[type="color"] {
+    opacity: 0;
+    height: 50px;
+    width: 50px;
+    margin: -20px -10px;
+    cursor: pointer;
+}
+
+.save-btn {
+    margin-block-start: 20px;
+    width: 100px;
+    position: relative;
+    background-color: #36d1af;
+}
+
+.save-btn i {
+    color: black;
+}
+
+.save-btn span {
+    margin-block: auto;
+    color: black;
+}
+
+.select-font {
+    font-size: 1em;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: #fff;
+    color: #333;
+    height: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.select-font option {
+    font-size: 16px;
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #333;
+}
+
+.edit-button {
+    justify-content: space-between;
+}
+
+.stickers-row-container {
+    border-radius: 15px;
+    background-color: #a19e9e;
+    padding: 5px;
+}
+
+
+.stickers-row-container i {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-inline-start: 10px;
+    scale: 1.1;
+}
+
+.stickers-row-container i:hover {
+    scale: 1.25;
+}
+
+.txt-btn span {
+    color: white;
 }

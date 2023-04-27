@@ -22,9 +22,9 @@
         <div class="logo"><img src="LOGO/LOGO.png" alt=""></div>
         <nav class="main-nav container">
             <ul class="clean-list flex">
-                <li><a href="#" onclick="onInitGallery()">Gallery </a> </li>
-                <li><a href="#" onclick="onShowSavedMemes()">Saved Memes </a> </li>
-                <li><a href="#" onclick="onShowAbout()">About</a></li>
+                <li><a href="#" onclick="onInitGallery()" data-trans="header-gallery">Gallery </a> </li>
+                <li><a href="#" onclick="onShowSavedMemes()" data-trans="header-saved">Saved Memes </a> </li>
+                <li><a href="#" onclick="onShowAbout()" data-trans="header-about">About</a></li>
             </ul>
             <button class="btn-menu" onclick="onToggleMenu()">☰</button>
         </nav>
@@ -34,19 +34,21 @@
 
         <section class="image-gallery">
             <div class="search-header flex justify-even align-center">
-                <input type="text" class="search-box" data-trans="book-search-placeholder"
-                    oninput="onSetFilterImage(value)" placeholder="Search for Image" />
+                <input type="text" class="search-box" data-trans="image-search" oninput="onSetFilterImage(value)"
+                    placeholder="Search for Image" />
                 <ul class="keywords-container flex clean-list space-between ">
-                    <li><a href="#">Funny</a> </li>
-                    <li><a href="#">Animal</a> </li>
-                    <li><a href="#">Men</a> </li>
-                    <li><a href="#">Women</a> </li>
-                    <li><a href="#">comic</a> </li>
-                    <li><a href="#">smile</a> </li>
+                    <li><a href="#" data-trans="funny-keyword">Funny</a> </li>
+                    <li><a href="#" data-trans="animal-keyword">Animal</a> </li>
+                    <li><a href="#" data-trans="men-keyword">Men</a> </li>
+                    <li><a href="#" data-trans="women-keyword">Women</a> </li>
+                    <li><a href="#" data-trans="comic-keyword">comic</a> </li>
+                    <li><a href="#" data-trans="smile-keyword">smile</a> </li>
                 </ul>
-                <button class="more-btn">More</button>
+                <button class="gallery-btn" data-trans="more-button">More</button>
+                <button class="gallery-btn" onclick="onGenerateRandomMeme()" data-trans="flexible-button">I'm
+                    flexible</button>
             </div>
-            <div class="image-container">
+            <div class="image-container flex justify-center">
                 <!-- render through Javascript all images -->
             </div>
         </section>
@@ -57,14 +59,17 @@
                 <canvas id="my-canvas" width="500" height="500"></canvas>
             </div>
 
-            <div class="meme-control">
+            <div class="meme-control flex align-center">
                 <ul class="meme-control-ul flex clean-list">
-                    <input type="text" name="" id="" oninput="onSetText(this.value)" placeholder="Add Meme Text">
-                    <li class="canvas-control">
-                        <button class="btn"><img src="ICONS/up-and-down-opposite-double-arrows-side-by-side.png" alt=""
+                    <li><input type="text" value="" class="meme-text-input" data-trans="input-text"
+                            oninput="onSetText(this.value)" placeholder="Add meme text"> </li>
+                    <li class="canvas-control flex">
+                        <button class="btn btn-line-switch"><img
+                                src="ICONS/up-and-down-opposite-double-arrows-side-by-side.png" alt=""
                                 onclick="onSwitchBetweenLines()"></button>
-                        <button class="btn"><img src="ICONS/add.png" alt=""></button>
-                        <button class="btn"><img src="ICONS/trash.png" alt="" onclick="onDeleteText()"></button>
+                        <button class="btn btn-add-line"><img src="ICONS/add.png" alt="" onclick="onAddLine()"></button>
+                        <button class="btn btn-remove-line"><img src="ICONS/trash.png" alt=""
+                                onclick="onDeleteText()"></button>
                     </li>
                     <div class="button-container">
                         <li class="edit-button">
@@ -72,7 +77,7 @@
                                     onclick="onChangeFontSize(+10)"></button>
                             <button class="btn"><img src="ICONS/decrease font - icon.png" alt=""
                                     onclick="onChangeFontSize(-10)"></button>
-                            <button class=" btn"><img src="ICONS/align-to-left.png" alt=""
+                            <button class="btn"><img src="ICONS/align-to-left.png" alt=""
                                     onclick="onChangeAlignText('left')"></button>
                             <button class="btn"><img src="ICONS/center-text-alignment.png" alt=""
                                     onclick="onChangeAlignText('center')"></button>
@@ -80,16 +85,17 @@
                                     onclick="onChangeAlignText('right')"></button>
 
                         </li>
-                        <li class="edit-button">
+                        <li class="edit-button flex align-center">
                             <select class="select-font" onchange="onChangeFont(this.value)">
-                                <option value="impact">Arial</option>
+                                <option value="impact">Impact</option>
+                                <option value="arial">Arial</option>
                                 <option value="times new roman">Times new roman</option>
                                 <option value="calibri">Calibri</option>
                                 <option value="monospace">Monospace</option>
                                 <option value="cursive">Cursive</option>
                                 <option value="fantasy">Fantasy</option>
                             </select>
-                            <button class="">
+                            <button class="btn btn-clr">
                                 <i class="fa-solid fa-s"></i>
                                 <input type="color" oninput="onSetStrokeColor(this.value)">
                             </button>
@@ -101,29 +107,36 @@
                     </div>
 
                     <li>
-                        <div class="sticker-container">
+                        <div class="sticker-container flex space-between align-center">
+                            <button class="btn prev-btn" onclick="onPrevStickers()"><i
+                                    class="fa-sharp fa-solid fa-backward"></i></button>
+                            <div class="stickers-row-container"></div>
+                            <button class="btn next-btn" onclick="onNextStickers()"><i
+                                    class="fa-solid fa-forward"></i></button>
                         </div>
                     </li>
-                    <li>
-                        <!-- add dropdown later -->
-                        <button class="btn share-btn" onclick="onUploadImg()"><i
-                                class="fa-sharp fa-solid fa-share-nodes"></i><span>Share</span></button>
-                        <button><a href="#" class="btn" onclick="downloadImg(this)" download="meme.jpg"><i
-                                    class="fa-solid fa-down-to-line"></i><span>Download</span></a></button>
-                        <button class="btn" onclick="onSaveMeme()">Save</button>
+                    <li class="flex space-between">
+                        <button class="btn save-btn" onclick="onUploadImg()"><i
+                                class="fa-sharp fa-solid fa-share-nodes"></i><span> Share</span></button>
+                        <button class="btn save-btn"><a href="#" onclick="downloadImg(this)"
+                                download="GeneratedMeme.jpg"><i class="fa-solid fa-down-long"></i><span>
+                                    Download</span></i>
+                            </a></button>
+                        <button class="btn save-btn" data-trans="save-button" onclick="onSaveMeme()"><i
+                                class="fa-solid fa-image"></i><span> Save</span></button>
+
                     </li>
                 </ul>
             </div>
         </section>
 
         <section class="about-container">
-            <div class="about-header">
-                <h3 data-trans="about-head">Welcome to Steve's Meme Generator Project!</h3>
-            </div>
-            <div><span data-trans="about-first-section">This project is a fun and interactive web application that
+            <h3 data-trans="about-head">Welcome to Steve's Meme Generator Project!</h3>
+            <p><span data-trans="about-first-section">This project is a fun and interactive web
+                    application that
                     allows users to create
-                    custom memes with their own captions and share them with the world.</span>
-                <span data-trans="about-second-section">As a student at Coding Academy, I developed this project using
+                    custom memes with their own captions and share them with the world.</span></p>
+            <p><span data-trans="about-second-section">As a student at Coding Academy, I developed this project using
                     web technologies such
                     as HTML, CSS, and
                     JavaScript. The project utilizes a canvas element to render the memes and provides users with
@@ -132,13 +145,13 @@
                     customize their memes. Users can choose from a collection of images, change the font size and color,
                     add
                     multiple
-                    captions, and download the memes to share them with their friends and family.</span>
+                    captions, and download the memes to share them with their friends and family.</span></p>
 
-                <span data-trans="about-third-section">So what are you waiting for? let's start making memes as well as
+            <p> <span data-trans="about-third-section">So what are you waiting for? let's start making memes as well as
                     having a good
-                    laugh😉</span>
+                    laugh😉</span></p>
 
-            </div>
+
         </section>
 
     </main>
@@ -149,8 +162,6 @@
     <script src="js/controller/galleryController.js"></script>
     <script src="js/controller/memeController.js"></script>
     <script src="js/main.js"></script>
-    <script src="js/share-on-facebook.js"></script>
-
 
 </body>
 

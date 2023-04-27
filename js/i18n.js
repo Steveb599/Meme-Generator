@@ -80,7 +80,11 @@ const gTrans = {
     'about-third-section': {
         en: 'So what are you waiting for? let\'s start making memes as well as having a good laugh😉',
         he: 'אז למה אתם מחכים? בואו נתחיל לייצר ממים ולצחוק! 😉'
-    }
+    },
+    'flexible-button': {
+        en: 'I\'m flexible',
+        he: 'מים רנדומלי',
+    },
 }
 
 let gCurrLang = 'en'

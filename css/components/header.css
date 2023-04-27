@@ -1,9 +1,10 @@
 .main-header {
-    border-radius: 37px;
+    border-radius: 2em;
     background-color: #5970c1;
     margin: 10px;
     height: 60px;
     background-image: linear-gradient(-86deg, #33be6d 0%, #0c98b9 100%);
+    margin-block-end: 40px;
 }
 
 header ul>li a {
@@ -18,7 +19,6 @@ header ul>li a {
 header ul>li a:hover {
     cursor: pointer;
 }
-
 
 
 header ul {

@@ -1,3 +1,13 @@
 .about-container {
-    display: none;
+    color: rgb(199, 151, 151);
+}
+
+h3 {
+    text-align: center;
+}
+
+.about-container p {
+    line-height: 30px;
+    padding-inline: 80px;
+    margin-block-start: 30px;
 }
