@@ -1,5 +1,139 @@
-@media (min-width: 900px) {
-    .btn-menu {
+@media (min-width: 640px) {
+    .menu-button {
         display: none;
+    }
+}
+
+
+/* MOBILE ONLY */
+
+@media (max-width: 640px) {
+    .main-header {
+        height: 70px;
+    }
+
+    body.menu-open .menu-background {
+        pointer-events: auto;
+        opacity: 1;
+    }
+
+    body.menu-open .search-header {
+        margin-top: 80px;
+    }
+
+    .body.menu-open .main-layout {
+        cursor: pointer;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .body.menu-open .main-header ul {
+        margin-bottom: 200px;
+    }
+
+    .main-header ul {
+        transition: max-height 0.8s ease-in-out;
+    }
+
+    .menu-button {
+        background-image: linear-gradient(-86deg, #33be6d 0%, #0c98b9 100%);
+        border-radius: 1em;
+    }
+
+    .main-nav-container {
+        z-index: 3;
+    }
+
+    .menu-button:hover {
+        scale: 1.1;
+        opacity: 0.8;
+    }
+
+    header ul {
+        max-height: 0;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        background-color: #74a18c;
+        transition: max-height 1s;
+        z-index: 1;
+    }
+
+    .main-screen {
+        cursor: pointer;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .menu-open ul {
+        max-height: 100vh;
+    }
+
+    header ul>li {
+        border-inline-end: none;
+        border-bottom: 1px solid #585858;
+        transition: 0.3s;
+    }
+
+    header ul li:hover {
+        background-color: #4bb0d2;
+    }
+
+    header ul>li a {
+        width: 100%;
+        color: white;
+    }
+
+    header ul>li a:hover {
+        scale: 1.3;
+    }
+
+    .canvas-container,
+    #my-canvas {
+        width: 95%;
+        margin-inline-start: 5px;
+        height: 100%;
+    }
+
+    .prev-btn,
+    .next-btn {
+        width: 40px;
+        height: 30px;
+        padding: 2.5px;
+    }
+
+    .font-btn {
+        width: 45px;
+        height: 45px;
+    }
+
+    .save-btn {
+        height: 55px;
+        margin-block-start: 30px;
+    }
+
+    .save-btn span {
+        font-size: 14px;
+    }
+
+    .about-container p {
+        padding-inline: 0;
     }
 }

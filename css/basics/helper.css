@@ -27,3 +27,7 @@
 .flex.justify-even {
     justify-content: space-evenly;
 }
+
+.wrap {
+    flex-wrap: wrap;
+}

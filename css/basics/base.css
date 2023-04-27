@@ -18,3 +18,7 @@ a {
 i {
     font-size: 20px;
 }
+
+.wrap {
+    flex-wrap: wrap;
+}

@@ -38,6 +38,8 @@ function renderStickers() {
     elStickerContainer.innerHTML = `${stickerHtml}`
 }
 
+
+
 function onPrevStickers() {
     gStickerIdx -= STICKER_SIZE
     if (gStickerIdx < 0) {
@@ -52,6 +54,12 @@ function onNextStickers() {
         gStickerIdx = 0
     }
     renderStickers()
+}
+
+function onToggleMenu() {
+    document.body.classList.toggle('menu-open')
+    const elBtn = document.querySelector('.menu-button')
+    elBtn.innerText = (elBtn.innerText === '☰') ? 'X' : '☰'
 }
 
 

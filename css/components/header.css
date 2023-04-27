@@ -14,10 +14,16 @@ header ul>li a {
     text-decoration: none;
     padding: 5px;
     margin: 5px;
+    transition: 0.6s;
 }
 
 header ul>li a:hover {
     cursor: pointer;
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #49a458;
+    transform: translateY(-7px);
+    border-radius: 15px;
 }
 
 

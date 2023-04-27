@@ -77,11 +77,20 @@
 .image-container img:hover {
     scale: 1.05;
     opacity: 0.6;
+    box-shadow: 0 60px 80px rgba(0, 0, 0, 0.60), 0 45px 26px rgba(0, 0, 0, 0.14);
 }
 
 .custom-file-input {
     position: relative;
     top: 40%;
+}
+
+.search-header {
+    flex-wrap: wrap;
+}
+
+.search-header>* {
+    margin-block-end: 20px;
 }
 
 .custom-file-input label {
@@ -104,4 +113,12 @@
     z-index: -1;
     opacity: 0;
     cursor: pointer;
+}
+
+
+.search-box {
+    border-radius: 2em;
+    height: 2.5em;
+    font-size: 1em;
+    font-family: Poppins, sans-serif;
 }

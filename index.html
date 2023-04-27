@@ -16,17 +16,17 @@
 
 <body onload="onInitGallery()">
 
-    <div class="main-screen" onclick="onToggleMenu()"></div>
+    <div class="main-screen menu-background" onclick="onToggleMenu()"></div>
 
     <header class="main-header flex space-between align-center">
         <div class="logo"><img src="LOGO/LOGO.png" alt=""></div>
-        <nav class="main-nav container">
+        <nav class="main-nav-container">
             <ul class="clean-list flex">
                 <li><a href="#" onclick="onInitGallery()" data-trans="header-gallery">Gallery </a> </li>
                 <li><a href="#" onclick="onShowSavedMemes()" data-trans="header-saved">Saved Memes </a> </li>
                 <li><a href="#" onclick="onShowAbout()" data-trans="header-about">About</a></li>
             </ul>
-            <button class="btn-menu" onclick="onToggleMenu()">☰</button>
+            <button class="menu-button" onclick="onToggleMenu()">☰</button>
         </nav>
     </header>
 
@@ -35,8 +35,8 @@
         <section class="image-gallery">
             <div class="search-header flex justify-even align-center">
                 <input type="text" class="search-box" data-trans="image-search" oninput="onSetFilterImage(value)"
-                    placeholder="Search for Image" />
-                <ul class="keywords-container flex clean-list space-between ">
+                    placeholder="Search for Image.." />
+                <ul class="keywords-container wrap flex clean-list justify-even ">
                     <li><a href="#" data-trans="funny-keyword">Funny</a> </li>
                     <li><a href="#" data-trans="animal-keyword">Animal</a> </li>
                     <li><a href="#" data-trans="men-keyword">Men</a> </li>
@@ -54,7 +54,7 @@
         </section>
 
 
-        <section class="meme-editor flex align-center justify-even">
+        <section class="meme-editor flex wrap align-center justify-even">
             <div class="canvas-container">
                 <canvas id="my-canvas" width="500" height="500"></canvas>
             </div>
@@ -72,16 +72,16 @@
                                 onclick="onDeleteText()"></button>
                     </li>
                     <div class="button-container">
-                        <li class="edit-button">
-                            <button class="btn"><img src="ICONS/increase font - icon.png" alt=""
+                        <li class="edit-button flex wrap">
+                            <button class="btn font-btn"><img src="ICONS/increase font - icon.png" alt=""
                                     onclick="onChangeFontSize(+10)"></button>
-                            <button class="btn"><img src="ICONS/decrease font - icon.png" alt=""
+                            <button class="btn font-btn"><img src="ICONS/decrease font - icon.png" alt=""
                                     onclick="onChangeFontSize(-10)"></button>
-                            <button class="btn"><img src="ICONS/align-to-left.png" alt=""
+                            <button class="btn font-btn"><img src="ICONS/align-to-left.png" alt=""
                                     onclick="onChangeAlignText('left')"></button>
-                            <button class="btn"><img src="ICONS/center-text-alignment.png" alt=""
+                            <button class="btn font-btn"><img src="ICONS/center-text-alignment.png" alt=""
                                     onclick="onChangeAlignText('center')"></button>
-                            <button class="btn"><img src="ICONS/align-to-right.png" alt=""
+                            <button class="btn font-btn"><img src="ICONS/align-to-right.png" alt=""
                                     onclick="onChangeAlignText('right')"></button>
 
                         </li>

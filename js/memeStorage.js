@@ -13,3 +13,7 @@ function saveToStorage(key, val) {
 function saveMemetoStorage() {
     saveToStorage(STORAGE_KEY, meme)
 }
+
+function loadMemeFromStorage() {
+    return loadFromStorage('memeDB')
+}

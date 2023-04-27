@@ -8,7 +8,7 @@ ul img {
 }
 
 .meme-control {
-    width: 500px;
+    width: fit-content;
 }
 
 .meme-control-ul {
@@ -23,6 +23,7 @@ canvas,
 .canvas-container {
     border-radius: 5%;
     margin-block-start: 10px;
+    box-shadow: 0 60px 80px rgba(0, 0, 0, 0.60), 0 45px 26px rgba(0, 0, 0, 0.14);
 }
 
 .btn {
@@ -151,6 +152,15 @@ input[type="color"] {
     padding: 5px;
 }
 
+.menu-button {
+    cursor: pointer;
+    font-size: 24px;
+    margin-inline-end: 30px;
+}
+
+.menu-button:hover {
+    color: green;
+}
 
 .stickers-row-container i {
     width: 40px;
@@ -167,4 +177,10 @@ input[type="color"] {
 
 .txt-btn span {
     color: white;
+}
+
+.save-btn span {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 600;
 }
