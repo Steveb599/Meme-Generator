@@ -2,8 +2,9 @@
 
 const gElCanvas = document.querySelector('#my-canvas')
 let gCtx
+let gEmojiIdx = 0
 
-const STICKER_SIZE = 4
+const EMOJI_SIZE = 4
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
 function renderMeme() {
@@ -14,47 +15,57 @@ function renderMeme() {
     elImg.src = `images/${memes.selectedImgId}.jpg`
     elImg.onload = () => {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
-        fillText(memeDetails, gCtx)
+        fillTextinCanvas(memeDetails, gCtx)
+        const selectedEmojiID = memes.selectedEmojis
+        if (selectedEmojiID !== null) {
+            const selectedEmoji = gEmojis[selectedEmojiID]
+            gCtx.font = '30px arial'
+            gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2)
+        }
     }
     updateMemeTextInput()
 }
 
-renderStickers()
+renderEmojisToDOM()
 
-function renderStickers() {
-    let gStickerIdx = 0
-    // const stickers = getStickers()
-    const stickers = ['<i class="fa-solid fa-face-grin-tongue-squint"></i>', '<i class="fa-solid fa-face-grin-tongue-squint"></i>', '<i class="fa-solid fa-face-grin-tongue-squint"></i>', '<i class="fa-solid fa-face-grin-tongue-squint"></i>']
-    const elStickerContainer = document.querySelector('.stickers-row-container')
-    let stickerHtml = ''
-    for (let i = 0; i < STICKER_SIZE; i++) {
-        if (gStickerIdx + STICKER_SIZE >= stickers.length) {
-            gStickerIdx = 0
+function renderEmojisToDOM() {
+    const emojis = getEmojis()
+    const elEmojiContainer = document.querySelector('.emojis-row-container')
+    let emojiHTML = ''
+    const startIndex = gEmojiIdx * EMOJI_SIZE
+    const endIndex = startIndex + EMOJI_SIZE
+    for (let i = startIndex; i < endIndex; i++) {
+        if (i >= emojis.length) {
+            break
         }
-        const sticker = stickers[gStickerIdx]
-        stickerHtml += `${sticker}`
-        gStickerIdx++
+        const emoji = emojis[i]
+        emojiHTML += `<div class="emoji" onclick="onSelectEmoji(${i})">${emoji}</div>`
     }
-    elStickerContainer.innerHTML = `${stickerHtml}`
+    elEmojiContainer.innerHTML = `${emojiHTML}`
 }
 
-
-
-function onPrevStickers() {
-    gStickerIdx -= STICKER_SIZE
-    if (gStickerIdx < 0) {
-        gStickerIdx = gStickers.length - STICKER_SIZE
-    }
-    renderStickers()
+function onSelectEmoji(idx) {
+    selectEmoji(idx)
+    console.log('5')
+    renderMeme()
 }
 
-function onNextStickers() {
-    gStickerIdx += STICKER_SIZE
-    if (gStickerIdx >= gStickers.length) {
-        gStickerIdx = 0
+function onPrevEmojis() {
+    gEmojiIdx--
+    if (gEmojiIdx < 0) {
+        gEmojiIdx = (getEmojis().length / EMOJI_SIZE) - 1
     }
-    renderStickers()
+    renderEmojisToDOM()
 }
+
+function onNextEmojis() {
+    gEmojiIdx++
+    if (gEmojiIdx >= (getEmojis().length / EMOJI_SIZE)) {
+        gEmojiIdx = 0
+    }
+    renderEmojisToDOM()
+}
+
 
 function onToggleMenu() {
     document.body.classList.toggle('menu-open')
@@ -70,7 +81,7 @@ function updateMemeTextInput() {
     elInput.value = inputText
 }
 
-function fillText(memeDetails, gCtx) {
+function fillTextinCanvas(memeDetails, gCtx) {
     memeDetails.forEach((line, idx) => {
         gCtx.font = `${line.fontSize}px ${line.font}`
         gCtx.fillStyle = line.colorFill
@@ -85,10 +96,19 @@ function fillText(memeDetails, gCtx) {
             gCtx.font = `${line.fontSize}px ${line.font}`
             lineWidth = gCtx.measureText(memeString).width
         }
-        gCtx.fillText(memeString, canvasWidth, canvasHeight)
-        gCtx.strokeText(memeString, canvasWidth, canvasHeight)
-    })
+        let lineHeight = line.fontSize * 1.286;
+        const textX = canvasWidth - (lineWidth / 2);
+        const textY = canvasHeight + (lineHeight / 2);
+        gCtx.fillText(memeString, textX, textY);
+        gCtx.strokeText(memeString, textX, textY);
+
+        // Draw the rect around the text
+        gCtx.beginPath();
+        gCtx.rect(textX, canvasHeight, lineWidth, lineHeight);
+        gCtx.stroke();
+    });
 }
+
 
 function downloadImg(elLink) {
     const imgContent = gElCanvas.toDataURL('meme/jpeg')
@@ -107,12 +127,6 @@ function onSetText(str) {
     renderMeme()
 }
 
-// function onShowMemeEditor() {
-//     const elMemeEditor = document.querySelector('.meme-editor')
-//     const elImageGallery = document.querySelector('.image-gallery')
-//     elMemeEditor.hidden = true
-//     elImageGallery.hidden = false
-// }
 
 function onSetFillColor(color) {
     setFillColor(color)
@@ -159,10 +173,6 @@ function onUploadImg() {
 //  saveMemetoStorage('memeDB', meme)
 // }
 
-function onGenerateRandomMeme() {
-    generateRandomMeme()
-    renderMeme()
-}
 
 
 function getFonts() {

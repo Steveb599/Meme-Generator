@@ -19,9 +19,16 @@
     <div class="main-screen menu-background" onclick="onToggleMenu()"></div>
 
     <header class="main-header flex space-between align-center">
-        <div class="logo"><img src="LOGO/LOGO.png" alt=""></div>
+        <div class="logo"><img src="LOGO/LOGO.png" onclick="onInitGallery()" alt=""></div>
         <nav class="main-nav-container">
+            <div class="switch">
+                <input id="language-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
+                <label for="language-toggle"></label>
+                <span value="en" class="on">EN</span>
+                <span value="he" class="off">HE</span>
+            </div>
             <ul class="clean-list flex">
+
                 <li><a href="#" onclick="onInitGallery()" data-trans="header-gallery">Gallery </a> </li>
                 <li><a href="#" onclick="onShowSavedMemes()" data-trans="header-saved">Saved Memes </a> </li>
                 <li><a href="#" onclick="onShowAbout()" data-trans="header-about">About</a></li>
@@ -78,11 +85,11 @@
                             <button class="btn font-btn"><img src="ICONS/decrease font - icon.png" alt=""
                                     onclick="onChangeFontSize(-10)"></button>
                             <button class="btn font-btn"><img src="ICONS/align-to-left.png" alt=""
-                                    onclick="onChangeAlignText('left')"></button>
+                                    onclick="onChangeAlignText('end')"></button>
                             <button class="btn font-btn"><img src="ICONS/center-text-alignment.png" alt=""
                                     onclick="onChangeAlignText('center')"></button>
                             <button class="btn font-btn"><img src="ICONS/align-to-right.png" alt=""
-                                    onclick="onChangeAlignText('right')"></button>
+                                    onclick="onChangeAlignText('start')"></button>
 
                         </li>
                         <li class="edit-button flex align-center">
@@ -101,17 +108,17 @@
                             </button>
                             <button class="btn btn-clr">
                                 <i class='fas fa-palette'></i>
-                                <input type="color" oninput="onSetFillColor(this.value)">
+                                <input type="color" value="#ffffff" oninput="onSetFillColor(this.value)">
                             </button>
                         </li>
                     </div>
 
                     <li>
-                        <div class="sticker-container flex space-between align-center">
-                            <button class="btn prev-btn" onclick="onPrevStickers()"><i
+                        <div class="emoji-container flex space-between align-center">
+                            <button class="btn prev-btn" onclick="onPrevEmojis()"><i
                                     class="fa-sharp fa-solid fa-backward"></i></button>
-                            <div class="stickers-row-container"></div>
-                            <button class="btn next-btn" onclick="onNextStickers()"><i
+                            <div class="emojis-row-container flex"></div>
+                            <button class="btn next-btn" onclick="onNextEmojis()"><i
                                     class="fa-solid fa-forward"></i></button>
                         </div>
                     </li>
@@ -128,6 +135,11 @@
                     </li>
                 </ul>
             </div>
+
+            <section class="saved-memes">
+
+            </section>
+
         </section>
 
         <section class="about-container">
@@ -159,9 +171,9 @@
     <script src="js/memeStorage.js"></script>
     <script src="js/service/memeService.js"></script>
     <script src="js/service/galleryService.js"></script>
-    <script src="js/controller/galleryController.js"></script>
     <script src="js/controller/memeController.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/controller/galleryController.js"></script>
+
 
 </body>
 

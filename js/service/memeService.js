@@ -1,21 +1,21 @@
-const gStickers = ['<i class="fa-light fa-face-awesome"></i>',
-    '<i class="fa-solid fa-face-woozy"></i>',
-    '<i class="fa-solid fa-face-worried"></i>',
-    '<i class="fa-solid fa-face-smiling-hands"></i>',
-    '<i class="fa-solid fa-face-zany"></i>',
-    '<i class="fa-solid fa-face-tired"></i>',
-    '<i class="fa-solid fa-face-sad-cry"></i>',
-    '<i class="fa-solid fa-face-sleeping"></i>',
-    '<i class="fa-solid fa-face-rolling-eyes"></i>',
-    '<i class="fa-solid fa-face-monocle"></i>',
-    '<i class="fa-solid fa-face-grin-tears"></i>',
-    '<i class="fa-solid fa-face-hand-yawn"></i>',
-    '<i class="fa-solid fa-face-angry-horns"></i>',
-    '<i class="fa-solid fa-face-grin-beam-sweat"></i>',
-    '<i class="fa-solid fa-face-head-bandage"></i>',
-    '<i class="fa-solid fa-face-dizzy"></i>']
-
-
+const gEmojis = [
+    '😂',
+    '😜',
+    '🤔',
+    '😊',
+    '😎',
+    '🙄',
+    '😴',
+    '😷',
+    '🤯',
+    '🚀',
+    '🌈',
+    '🦄',
+    '🍕',
+    '🍔',
+    '🍩',
+    '🍺',
+]
 
 const STORAGE_KEY = 'memeDB'
 
@@ -25,27 +25,30 @@ var gKeywordSearchCountMap = { 'funny': 12, 'cat': 16, 'baby': 2 }
 var gMeme = {
     selectedImgId: null,
     selectedLineIdx: 0,
-    selectedStickerIdx: null,
+    selectedEmojis: null,
     lines: [
         {
             txt: '',
-            fontSize: 20,
-            font: 'arial',
+            fontSize: 30,
+            font: 'impact',
             align: 'center',
-            colorFill: 'red',
+            colorFill: 'white',
             colorStroke: 'black',
         },
         {
             txt: '',
-            fontSize: 20,
-            font: 'arial',
+            fontSize: 30,
+            font: 'impact',
             align: 'center',
-            colorFill: 'red',
+            colorFill: 'white',
             colorStroke: 'black',
         },
     ]
 }
 
+function selectEmoji(emoji) {
+    gMeme.selectedEmojis = emoji
+}
 
 function getMeme() {
     return gMeme
@@ -58,6 +61,10 @@ function setText(str) {
 function setImg(id) {
     gMeme.selectedImgId = id
     renderMeme()
+}
+
+function changeImgId() {
+    gMeme.selectedImgId = null
 }
 
 function setFillColor(color) {
@@ -186,8 +193,6 @@ function doUploadImg(imgDataUrl, onSuccess) {
     XHR.send(formData)
 }
 
-
-
-function getStickers() {
-    return gStickers
+function getEmojis() {
+    return gEmojis
 }

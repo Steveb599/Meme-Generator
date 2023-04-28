@@ -20,6 +20,7 @@ function createImgs() {
 
 function onImgInput(ev) {
     loadImageFromInput(ev, renderImg)
+    onShowMemeEditor()
 }
 
 // CallBack func will run on success load of the img
@@ -36,6 +37,5 @@ function loadImageFromInput(ev, onImageReady) {
     }
     reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
 }
-
 
 

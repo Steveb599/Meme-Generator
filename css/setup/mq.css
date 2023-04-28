@@ -37,6 +37,7 @@
         margin-bottom: 200px;
     }
 
+
     .main-header ul {
         transition: max-height 0.8s ease-in-out;
     }
@@ -135,5 +136,13 @@
 
     .about-container p {
         padding-inline: 0;
+    }
+}
+
+@media (max-width: 900px) {
+
+    canvas,
+    .canvas-container {
+        margin-block-start: -10px;
     }
 }

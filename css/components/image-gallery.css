@@ -83,6 +83,7 @@
 .custom-file-input {
     position: relative;
     top: 40%;
+    transition: 0.5s;
 }
 
 .search-header {
@@ -103,9 +104,10 @@
     transition: 0.5s;
 }
 
-.custom-file-input label:hover {
+
+.custom-file-input:hover {
     scale: 1.1;
-    opacity: 0.8;
+    opacity: 0.6;
 }
 
 .custom-file-input input[type="file"] {

@@ -83,7 +83,7 @@ const gTrans = {
     },
     'flexible-button': {
         en: 'I\'m flexible',
-        he: 'מים רנדומלי',
+        he: 'מם רנדומלי',
     },
 }
 
@@ -109,5 +109,16 @@ function doTrans() {
 
 function setLang(lang) {
     gCurrLang = lang
+}
+
+const toggleLangInput = document.querySelector('#language-toggle')
+toggleLangInput.addEventListener('change', onSetLang)
+
+function onSetLang() {
+    const lang = toggleLangInput.checked ? 'he' : 'en'
+    setLang(lang)
+    if (lang === 'he') document.body.classList.add('rtl')
+    else document.body.classList.remove('rtl')
+    gLanguage = lang
 }
 

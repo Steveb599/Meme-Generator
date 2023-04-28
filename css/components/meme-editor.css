@@ -15,6 +15,11 @@ ul img {
     flex-direction: column;
 }
 
+.emoji {
+    cursor: pointer;
+    padding: 5px;
+}
+
 canvas {
     border: 1px solid black;
 }
@@ -43,6 +48,10 @@ canvas,
 .btn:hover {
     scale: 1.1;
 
+}
+
+.select-font:hover {
+    cursor: pointer;
 }
 
 .canvas-control {
@@ -93,7 +102,7 @@ canvas,
     background-color: #f13232;
 }
 
-.sticker-container {
+.emoji-container {
     border-radius: 15px;
     padding: 10px;
     background-color: #abdae1;
@@ -146,7 +155,7 @@ input[type="color"] {
     justify-content: space-between;
 }
 
-.stickers-row-container {
+.emojis-row-container {
     border-radius: 15px;
     background-color: #a19e9e;
     padding: 5px;
@@ -162,7 +171,7 @@ input[type="color"] {
     color: green;
 }
 
-.stickers-row-container i {
+.emojis-row-container i {
     width: 40px;
     height: 40px;
     cursor: pointer;
@@ -171,7 +180,7 @@ input[type="color"] {
     scale: 1.1;
 }
 
-.stickers-row-container i:hover {
+.emojis-row-container i:hover {
     scale: 1.25;
 }
 
