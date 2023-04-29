@@ -214,12 +214,12 @@ function generateRandomMeme() {
 }
 
 function saveMeme() {
-    let memes = loadFromStorage('memeDB') || []
-    if (!Array.isArray(memes)) {
-        memes = []
-    }
-    memes.push(gMeme)
-    saveMemestoStorage()
+    // let memes = loadFromStorage('memeDB') || []
+    // if (!Array.isArray(memes)) {
+    //     memes = []
+    // }
+    // memes.push(gMeme)
+    // saveMemestoStorage()
 }
 
 
