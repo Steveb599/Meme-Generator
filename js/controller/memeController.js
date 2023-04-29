@@ -1,15 +1,20 @@
 'use strict';
 
-const gElCanvas = document.querySelector('#my-canvas');
-let gEmojiIdx = 0;
-const EMOJI_SIZE = 4;
-const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup'];
-const gCtx = gElCanvas.getContext('2d');
-var gStartPos = {};
-const memes = getMeme();
-const memeDetails = memes.lines;
-addMouseListeners()
-addTouchListeners()
+const gElCanvas = document.querySelector('#my-canvas')
+let gEmojiIdx = 0
+const EMOJI_SIZE = 4
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup']
+const gCtx = gElCanvas.getContext('2d')
+let gStartPos = {}
+const memes = getMeme()
+const memeDetails = memes.lines
+
+function onInit() {
+    addMouseListeners()
+    addTouchListeners()
+    renderEmojisToDOM()
+    renderSavedMemes()
+}
 
 function addMouseListeners() {
     gElCanvas.addEventListener('mousedown', onDown)
@@ -68,7 +73,6 @@ function getEvPos(ev) {
         x: ev.offsetX,
         y: ev.offsetY,
     }
-    console.log('ev.type:', ev.type)
     // Check if its a touch ev
     if (ev.type.startsWith('touch')) {
         console.log(ev)
@@ -87,31 +91,37 @@ function getEvPos(ev) {
 
 
 function renderMeme(img) {
-    let elImg = new Image();
+    let elImg = new Image()
     if (img) {
-        elImg = img;
+        elImg = img
     } else if (memes.selectedImgId !== null) {
-        elImg.src = `images/${memes.selectedImgId}.jpg`;
+        elImg.src = `images/${memes.selectedImgId}.jpg`
     }
     elImg.onload = () => {
-        gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height);
-        fillTextinCanvas(memeDetails, gCtx);
-        const selectedEmojiID = memes.selectedEmojis;
-        if (selectedEmojiID !== null) {
-            selectedEmojiID.forEach((emojiID) => {
-                const emojis = getEmojis()
-                const selectedEmoji = emojis[emojiID];
-                gCtx.font = '30px arial';
-                gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2);
-            });
-        }
-    };
-    if (memes.selectedImgId === null) {
-        fillTextinCanvas(memeDetails, gCtx);
+        gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
+        fillTextinCanvas(memeDetails, gCtx)
+        renderEmojisOnCanvas(memes)
     }
-    updateMemeTextInput();
+    if (memes.selectedImgId === null) {
+        fillTextinCanvas(memeDetails, gCtx)
+    }
+    updateMemeTextInput()
 
 }
+
+function renderEmojisOnCanvas(memes) {
+    const selectedEmojiID = memes.selectedEmojis
+    if (selectedEmojiID !== null) {
+        selectedEmojiID.forEach((emojiID) => {
+            const emojis = getEmojis()
+            const selectedEmoji = emojis[emojiID]
+            gCtx.font = '30px arial'
+            gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2)
+        })
+    }
+
+}
+
 // if (memes.selectedImgId === 19) {
 //     console.log('555');
 //     gCtx.fillText(
@@ -122,82 +132,77 @@ function renderMeme(img) {
 // }
 
 
-
-renderEmojisToDOM();
-
 function renderEmojisToDOM() {
-    const emojis = getEmojis();
-    const elEmojiContainer = document.querySelector('.emojis-row-container');
-    let emojiHTML = '';
-    const startIndex = gEmojiIdx * EMOJI_SIZE;
-    const endIndex = startIndex + EMOJI_SIZE;
+    const emojis = getEmojis()
+    const elEmojiContainer = document.querySelector('.emojis-row-container')
+    let emojiHTML = ''
+    const startIndex = gEmojiIdx * EMOJI_SIZE
+    const endIndex = startIndex + EMOJI_SIZE
     for (let i = startIndex; i < endIndex; i++) {
         if (i >= emojis.length) {
-            break;
+            break
         }
-        const emoji = emojis[i];
-        emojiHTML += `<div class="emoji" onclick="onSelectEmoji(${i})">${emoji}</div>`;
+        const emoji = emojis[i]
+        emojiHTML += `<div class="emoji" onclick="onSelectEmoji(${i})">${emoji}</div>`
     }
-    elEmojiContainer.innerHTML = `${emojiHTML}`;
+    elEmojiContainer.innerHTML = `${emojiHTML}`
 }
 
 function onSelectEmoji(idx) {
-    selectEmoji(idx);
-    renderMeme();
+    selectEmoji(idx)
+    renderMeme()
 }
 
 function onPrevEmojis() {
-    gEmojiIdx--;
+    gEmojiIdx--
     if (gEmojiIdx < 0) {
-        gEmojiIdx = getEmojis().length / EMOJI_SIZE - 1;
+        gEmojiIdx = getEmojis().length / EMOJI_SIZE - 1
     }
-    renderEmojisToDOM();
+    renderEmojisToDOM()
 }
 
 function onNextEmojis() {
-    gEmojiIdx++;
+    gEmojiIdx++
     if (gEmojiIdx >= getEmojis().length / EMOJI_SIZE) {
-        gEmojiIdx = 0;
+        gEmojiIdx = 0
     }
-    renderEmojisToDOM();
+    renderEmojisToDOM()
 }
 
 function onToggleMenu() {
-    document.body.classList.toggle('menu-open');
-    const elBtn = document.querySelector('.menu-button');
-    elBtn.innerText = elBtn.innerText === '☰' ? 'X' : '☰';
+    document.body.classList.toggle('menu-open')
+    const elBtn = document.querySelector('.menu-button')
+    elBtn.innerText = elBtn.innerText === '☰' ? 'X' : '☰'
 }
 
 function updateMemeTextInput() {
-    const memes = getMeme();
-    const inputText = memes.lines[memes.selectedLineIdx].txt
-        ? memes.lines[memes.selectedLineIdx].txt
-        : '';
-    const elInput = document.querySelector('.meme-text-input');
-    elInput.value = inputText;
+    const memes = getMeme()
+    const inputText = memes.lines[memes.selectedLineIdx].txt ? memes.lines[memes.selectedLineIdx].txt : ''
+    const elInput = document.querySelector('.meme-text-input')
+    elInput.value = inputText
 }
 
 function fillTextinCanvas(memeDetails, gCtx) {
     memeDetails.forEach(line => {
-        gCtx.font = `${line.fontSize}px ${line.font}`;
-        gCtx.fillStyle = line.colorFill;
-        gCtx.strokeStyle = line.colorStroke;
-        gCtx.textAlign = line.align;
-        const canvasWidth = line.pos.x;
-        const canvasHeight = line.pos.y;
-        const memeString = line.txt ? line.txt : '';
-        let lineWidth = gCtx.measureText(memeString).width;
+        gCtx.font = `${line.fontSize}px ${line.font}`
+        gCtx.fillStyle = line.colorFill
+        gCtx.strokeStyle = line.colorStroke
+        gCtx.textAlign = line.align
+        const canvasWidth = line.pos.x
+        const canvasHeight = line.pos.y
+        const memeString = line.txt ? line.txt : ''
+        let lineWidth = gCtx.measureText(memeString).width
         while (lineWidth > gElCanvas.width) {
-            line.fontSize -= 5;
-            gCtx.font = `${line.fontSize}px ${line.font}`;
-            lineWidth = gCtx.measureText(memeString).width;
+            line.fontSize -= 5
+            gCtx.font = `${line.fontSize}px ${line.font}`
+            lineWidth = gCtx.measureText(memeString).width
         }
-        let lineHeight = line.fontSize * 1.286;
-        const textY = canvasHeight + lineHeight / 2;
-        gCtx.fillText(memeString, canvasWidth, textY);
-        gCtx.strokeText(memeString, canvasWidth, textY);
+        let lineHeight = line.fontSize * 1.286
+        const textY = canvasHeight + lineHeight / 2
+        gCtx.fillText(memeString, canvasWidth, textY)
+        gCtx.strokeText(memeString, canvasWidth, textY)
 
-        gCtx.beginPath();
+        gCtx.beginPath()
         if (memeString.length > 0) {
 
             if (line.align === 'center') {
@@ -224,91 +229,89 @@ function fillTextinCanvas(memeDetails, gCtx) {
             }
         }
 
-        gCtx.stroke();
-    });
+        gCtx.stroke()
+    })
 }
 
 function downloadImg(elLink) {
-    const imgContent = gElCanvas.toDataURL('meme/jpeg');
-    elLink.href = imgContent;
-    elLink.download = 'generatedMeme';
+    const imgContent = gElCanvas.toDataURL('meme/jpeg')
+    elLink.href = imgContent
+    elLink.download = 'generatedMeme'
 }
 
 function onAddLine() {
-    addLine();
-    fillTextinCanvas(memeDetails, gCtx);
-    updateMemeTextInput();
+    addLine()
+    fillTextinCanvas(memeDetails, gCtx)
+    updateMemeTextInput()
 }
 
 function onSetText(str) {
-    setText(str);
-    updateMemeTextInput();
-    renderMeme();
+    setText(str)
+    updateMemeTextInput()
+    renderMeme()
 }
 
 function onSetFillColor(color) {
-    setFillColor(color);
-    renderMeme();
+    setFillColor(color)
+    renderMeme()
 }
 
 function onSetStrokeColor(color) {
-    setStrokeColor(color);
-    renderMeme();
+    setStrokeColor(color)
+    renderMeme()
 }
 
 function onChangeFontSize(num) {
-    ChangeFontSize(num);
-    renderMeme();
+    ChangeFontSize(num)
+    renderMeme()
 }
 
 function onChangeFont(font) {
-    changeFont(font);
-    renderMeme();
+    changeFont(font)
+    renderMeme()
 }
 
 function onDeleteText() {
-    deleteText();
-    renderMeme();
+    deleteText()
+    renderMeme()
 }
 
 function onChangeAlignText(align) {
-    changeAlignText(align);
-    renderMeme();
+    changeAlignText(align)
+    renderMeme()
 }
 
 function onSwitchBetweenLines() {
-    switchbetweenLines();
-    updateMemeTextInput();
-    renderMeme();
+    switchbetweenLines()
+    updateMemeTextInput()
+    renderMeme()
 }
 
 function onUploadImg() {
-    uploadImg();
+    uploadImg()
 }
 
 function onSaveMeme() {
-    saveMeme();
+    saveMeme()
 }
-
-renderSavedMemes()
 
 function renderSavedMemes() {
     const savedMemes = getSavedMemes()
     const elSavedMemesContainer = document.querySelector('.saved-memes-container')
     elSavedMemesContainer.innerHTML = ''
     savedMemes.forEach((meme) => {
-        const memeImgUrl = `images/${meme.selectedImgId}.jpg`;
-        const memeEl = document.createElement('div');
-        memeEl.classList.add('meme');
-        memeEl.style.backgroundImage = `url(${memeImgUrl})`;
-        elSavedMemesContainer.appendChild(memeEl);
+        const memeImgUrl = `images/${meme.selectedImgId}.jpg`
+        const memeEl = document.createElement('div')
+        memeEl.classList.add('meme')
+        memeEl.style.backgroundImage = `url(${memeImgUrl})`
+        elSavedMemesContainer.appendChild(memeEl)
     })
 }
 
 function getFonts() {
-    let elFontElement = document.querySelector('.select-font');
-    let elFontOptionValues = [...elFontElement.options].map((o) => o.value);
-    return elFontOptionValues;
+    let elFontElement = document.querySelector('.select-font')
+    let elFontOptionValues = [...elFontElement.options].map((o) => o.value)
+    return elFontOptionValues
 }
 
 function clearCanvas() {

@@ -85,36 +85,36 @@ const gTrans = {
         en: 'Upload an Image',
         he: 'לחץ על מנת להעלות תמונה'
     }
-};
+}
 
-let gCurrLang = 'en';
+let gCurrLang = 'en'
 
 function getTrans(transKey) {
-    const transMap = gTrans[transKey];
-    if (!transMap) return 'UNKNOWN';
-    var transTxt = transMap[gCurrLang];
-    if (!transTxt) transTxt = transMap.en;
-    return transTxt;
+    const transMap = gTrans[transKey]
+    if (!transMap) return 'UNKNOWN'
+    var transTxt = transMap[gCurrLang]
+    if (!transTxt) transTxt = transMap.en
+    return transTxt
 }
 
 function doTrans() {
-    var els = document.querySelectorAll('[data-trans]');
+    var els = document.querySelectorAll('[data-trans]')
     els.forEach((el) => {
-        const transKey = el.dataset.trans;
-        const transTxt = getTrans(transKey);
-        if (el.placeholder) el.placeholder = transTxt;
-        else el.innerText = transTxt;
+        const transKey = el.dataset.trans
+        const transTxt = getTrans(transKey)
+        if (el.placeholder) el.placeholder = transTxt
+        else el.innerText = transTxt
     });
 }
 
 document.getElementById("language-toggle").addEventListener("click", function () {
-    let lang = document.getElementById("language-toggle").checked ? "he" : "en";
-    onSetLang(lang);
+    let lang = document.getElementById("language-toggle").checked ? "he" : "en"
+    onSetLang(lang)
 })
 
 function onSetLang(lang) {
-    if (lang === 'he') document.body.classList.add('rtl');
-    else document.body.classList.remove('rtl');
-    gCurrLang = lang;
+    if (lang === 'he') document.body.classList.add('rtl')
+    else document.body.classList.remove('rtl')
+    gCurrLang = lang
     doTrans()
 }

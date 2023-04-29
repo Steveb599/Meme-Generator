@@ -1,12 +1,12 @@
-const gEmojis = ['😂', '😜', '🤔', '😊', '😎', '🙄', '😴', '😷', '🤯', '🚀', '🌈', '🦄', '🍕', '🍔', '🍩', '🍺',];
+const gEmojis = ['😂', '😜', '🤔', '😊', '😎', '🙄', '😴', '😷', '🤯', '🚀', '🌈', '🦄', '🍕', '🍔', '🍩', '🍺',]
 
-const STORAGE_KEY = 'memeDB';
+const STORAGE_KEY = 'memeDB'
 let gMemes = []
 const memeStrings = ['What if I told you', 'When you realise', 'Coding is fun', 'Did someone say', 'Not sure if', 'This is why you need', 'One does not simply', 'Haters gonna hate', 'I am not saying it was', 'You must be very proud', 'I have a surprise for you', 'You gotta be kidding me', 'it doesnt work...why?', 'it works...why?', 'my program: *works perfectly*', 'Not sure if I am a good programmer', 'Stackoverflow for the win', 'Me after 1 hour of coding', 'Me: sends programming meme',
-];
+]
 
-const canvas = document.querySelector('#my-canvas');
-const gKeywordSearchCountMap = { funny: 12, cat: 16, baby: 2 };
+const canvas = document.querySelector('#my-canvas')
+const gKeywordSearchCountMap = { funny: 12, cat: 16, baby: 2 }
 let gMeme = {
     selectedImgId: null,
     selectedLineIdx: 0,
@@ -39,7 +39,7 @@ let gMeme = {
             },
         }
     ],
-};
+}
 
 function setLineDrag(isDrag) {
     gMeme.lines[gMeme.selectedLineIdx].isDrag = isDrag
@@ -66,23 +66,23 @@ function moveLine(dx, dy) {
 function isLineClicked(clickedPos) {
     const clickedLineIdx = gMeme.lines.findIndex((line) => {
         const lineWidth = gCtx.measureText(line.txt).width;
-        const lineHeight = line.fontSize * 1.286;
+        const lineHeight = line.fontSize * 1.286
         let rectX, rectY, rectWidth, rectHeight;
         if (line.align === "center") {
             rectX = line.pos.x - lineWidth / 2;
-            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7;
-            rectWidth = lineWidth;
-            rectHeight = lineHeight + line.fontSize * 0.7;
+            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
+            rectWidth = lineWidth
+            rectHeight = lineHeight + line.fontSize * 0.7
         } else if (line.align === "end") {
             rectX = line.pos.x - lineWidth;
-            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7;
-            rectWidth = lineWidth;
-            rectHeight = lineHeight + line.fontSize * 0.7;
+            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
+            rectWidth = lineWidth
+            rectHeight = lineHeight + line.fontSize * 0.7
         } else if (line.align === "start") {
-            rectX = line.pos.x;
-            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7;
-            rectWidth = lineWidth;
-            rectHeight = lineHeight + line.fontSize * 0.7;
+            rectX = line.pos.x
+            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
+            rectWidth = lineWidth
+            rectHeight = lineHeight + line.fontSize * 0.7
         }
         return (
             clickedPos.x >= rectX &&
@@ -92,10 +92,10 @@ function isLineClicked(clickedPos) {
         );
     });
     if (clickedLineIdx !== -1) {
-        updateLineIdx(clickedLineIdx);
-        return true;
+        updateLineIdx(clickedLineIdx)
+        return true
     }
-    return false;
+    return false
 }
 
 // function isEmojiClicked
@@ -105,41 +105,41 @@ function updateLineIdx(idx) {
 }
 
 function selectEmoji(emoji) {
-    gMeme.selectedEmojis.push(emoji);
+    gMeme.selectedEmojis.push(emoji)
 }
 
 function getMeme() {
-    return gMeme;
+    return gMeme
 }
 
 function setText(str) {
-    gMeme.lines[gMeme.selectedLineIdx].txt = str;
+    gMeme.lines[gMeme.selectedLineIdx].txt = str
 }
 
 function setImg(id) {
-    gMeme.selectedImgId = id;
-    renderMeme();
+    gMeme.selectedImgId = id
+    renderMeme()
 }
 
 function setFillColor(color) {
-    gMeme.lines[gMeme.selectedLineIdx].colorFill = color;
+    gMeme.lines[gMeme.selectedLineIdx].colorFill = color
 }
 
 function setStrokeColor(color) {
-    gMeme.lines[gMeme.selectedLineIdx].colorStroke = color;
+    gMeme.lines[gMeme.selectedLineIdx].colorStroke = color
 }
 
 function ChangeFontSize(num) {
-    gMeme.lines[gMeme.selectedLineIdx].fontSize += num;
+    gMeme.lines[gMeme.selectedLineIdx].fontSize += num
 }
 
 function changeFont(font) {
-    gMeme.lines[gMeme.selectedLineIdx].font = font;
+    gMeme.lines[gMeme.selectedLineIdx].font = font
 }
 
 function deleteText() {
-    gMeme.lines[gMeme.selectedLineIdx].txt = '';
-    if (gMeme.selectedLineIdx > 0) [gMeme.selectedLineIdx--];
+    gMeme.lines[gMeme.selectedLineIdx].txt = ''
+    if (gMeme.selectedLineIdx > 0) [gMeme.selectedLineIdx--]
     gMeme.selectedEmojis = []
 }
 
@@ -151,14 +151,11 @@ function deleteAllText() {
 }
 
 function changeAlignText(align) {
-    gMeme.lines[gMeme.selectedLineIdx].align = align;
+    gMeme.lines[gMeme.selectedLineIdx].align = align
 }
 
 function switchbetweenLines() {
-    gMeme.selectedLineIdx =
-        gMeme.selectedLineIdx < gMeme.lines.length - 1
-            ? (gMeme.selectedLineIdx += 1)
-            : 0;
+    gMeme.selectedLineIdx = gMeme.selectedLineIdx < gMeme.lines.length - 1 ? (gMeme.selectedLineIdx += 1) : 0
 }
 
 function addLine() {
@@ -174,44 +171,44 @@ function addLine() {
             x: canvas.width / 2,
             y: canvas.height / 2,
         },
-    };
-    gMeme.lines.push(line);
-    gMeme.selectedLineIdx = gMeme.lines.length - 1;
+    }
+    gMeme.lines.push(line)
+    gMeme.selectedLineIdx = gMeme.lines.length - 1
 }
 
 function generateRandomMeme() {
     deleteAllText()
-    const images = getImgs();
-    const fonts = getFonts();
-    const randomFont = fonts[getRandomIntInclusive(0, fonts.length - 1)];
-    const randomImageId = getRandomIntInclusive(1, images.length);
+    const images = getImgs()
+    const fonts = getFonts()
+    const randomFont = fonts[getRandomIntInclusive(0, fonts.length - 1)]
+    const randomImageId = getRandomIntInclusive(1, images.length)
     const randomString =
-        memeStrings[getRandomIntInclusive(0, memeStrings.length - 1)];
-    let secondRandomString;
-    const randomStrokeClr = getRandomColor();
-    const randomFillClr = getRandomColor();
-    let randomFontSize = getRandomIntInclusive(2, 4) * 10;
-    const numOfLines = getRandomIntInclusive(1, 2);
+        memeStrings[getRandomIntInclusive(0, memeStrings.length - 1)]
+    let secondRandomString
+    const randomStrokeClr = getRandomColor()
+    const randomFillClr = getRandomColor()
+    let randomFontSize = getRandomIntInclusive(2, 4) * 10
+    const numOfLines = getRandomIntInclusive(1, 2)
     if (numOfLines === 2) {
         secondRandomString =
             memeStrings[getRandomIntInclusive(0, memeStrings.length)];
         while (secondRandomString === randomString) {
             secondRandomString =
-                memeStrings[getRandomIntInclusive(0, memeStrings.length)];
+                memeStrings[getRandomIntInclusive(0, memeStrings.length)]
         }
-        gMeme.lines[1].txt = secondRandomString;
+        gMeme.lines[1].txt = secondRandomString
     }
     gMeme.selectedImgId = randomImageId;
     gMeme.lines.forEach((line, idx) => {
         gMeme.selectedEmojis = []
         if (idx < numOfLines) {
-            gMeme.selectedLineIdx = idx;
-            line.txt = !idx ? randomString : secondRandomString;
-            line.fontSize = randomFontSize;
-            line.font = randomFont;
-            line.align = 'center';
-            line.colorFill = randomFillClr;
-            line.colorStroke = randomStrokeClr;
+            gMeme.selectedLineIdx = idx
+            line.txt = !idx ? randomString : secondRandomString
+            line.fontSize = randomFontSize
+            line.font = randomFont
+            line.align = 'center'
+            line.colorFill = randomFillClr
+            line.colorStroke = randomStrokeClr
         }
     });
 }
@@ -228,41 +225,40 @@ function saveMeme() {
 
 function getSavedMemes() {
     gMemes = loadFromStorage(STORAGE_KEY)
-    console.log(gMemes)
-    if (!gMemes.length) gMemes = []
+    if (!gMemes) gMemes = []
     return gMemes
 }
 
 function uploadImg() {
-    const gElCanvas = document.querySelector('#my-canvas');
-    const imgDataUrl = gElCanvas.toDataURL('meme/jpeg'); // Gets the canvas content as an image format
+    const gElCanvas = document.querySelector('#my-canvas')
+    const imgDataUrl = gElCanvas.toDataURL('meme/jpeg') // Gets the canvas content as an image format
 
     // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
         // Encode the instance of certain characters in the url
-        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl);
-        console.log(encodedUploadedImgUrl);
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        console.log(encodedUploadedImgUrl)
         window.open(
             `https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}`,
-        );
+        )
     }
     // Send the image to the server
-    doUploadImg(imgDataUrl, onSuccess);
+    doUploadImg(imgDataUrl, onSuccess)
 }
 
 function doUploadImg(imgDataUrl, onSuccess) {
     // Pack the image for delivery
-    const formData = new FormData();
-    formData.append('img', imgDataUrl);
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
 
     // Send a post req with the image to the server
-    const XHR = new XMLHttpRequest();
+    const XHR = new XMLHttpRequest()
     XHR.onreadystatechange = () => {
         // If the request is not done, we have no business here yet, so return
-        if (XHR.readyState !== XMLHttpRequest.DONE) return;
+        if (XHR.readyState !== XMLHttpRequest.DONE) return
         // if the response is not ok, show an error
-        if (XHR.status !== 200) return console.error('Error uploading image');
-        const { responseText: url } = XHR;
+        if (XHR.status !== 200) return console.error('Error uploading image')
+        const { responseText: url } = XHR
         // Same as
         // const url = XHR.responseText
 
@@ -270,21 +266,21 @@ function doUploadImg(imgDataUrl, onSuccess) {
         // that will create the link to facebook using the url we got
         console.log('Got back live url:', url);
         onSuccess(url);
-    };
+    }
     XHR.onerror = (req, ev) => {
         console.error(
             'Error connecting to server with request:',
             req,
             '\nGot response data:',
             ev,
-        );
-    };
+        )
+    }
     XHR.open('POST', '//ca-upload.com/here/upload.php');
     XHR.send(formData);
 }
 
 function getEmojis() {
-    return gEmojis;
+    return gEmojis
 }
 
 
