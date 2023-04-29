@@ -72,7 +72,7 @@ let gMeme = {
                 x: canvas.width / 2,
                 y: canvas.height * 0.8,
             },
-        },
+        }
     ],
 };
 
@@ -96,7 +96,6 @@ function isLineClicked(clickedPos) {
     // console.log('distance', distance)
     //If its smaller then the radius of the circle we are inside
     return distance
-    // <= gCircle.size
 }
 
 
@@ -138,6 +137,13 @@ function deleteText() {
     if (gMeme.selectedLineIdx > 0) [gMeme.selectedLineIdx--];
 }
 
+function deleteAllText() {
+    gMeme.lines.forEach((line) => {
+        line.txt = ''
+    })
+    updateMemeTextInput()
+}
+
 function changeAlignText(align) {
     gMeme.lines[gMeme.selectedLineIdx].align = align;
 }
@@ -152,10 +158,10 @@ function switchbetweenLines() {
 function addLine() {
     const line = {
         txt: '',
-        fontSize: 20,
-        font: 'arial',
+        fontSize: 25,
+        font: 'impact',
         align: 'center',
-        colorFill: 'red',
+        colorFill: 'white',
         colorStroke: 'black',
         isDrag: false,
         pos: {
@@ -168,6 +174,7 @@ function addLine() {
 }
 
 function generateRandomMeme() {
+    deleteAllText()
     const images = getImgs();
     const fonts = getFonts();
     const randomFont = fonts[getRandomIntInclusive(0, fonts.length - 1)];
@@ -265,7 +272,6 @@ function getEmojis() {
 
 
 function moveLine(dx, dy) {
-    gCircle.pos.x += dx
-    gCircle.pos.y += dy
-
+    gMeme.lines[gMeme.selectedLineIdx].pos.x += dx
+    gMeme.lines[gMeme.selectedLineIdx].pos.y += dy
 }

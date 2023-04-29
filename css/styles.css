@@ -3,6 +3,7 @@
 @import 'basics/layout.css';
 
 @import 'components/about.css';
+@import 'components/saved.css';
 @import 'components/header.css';
 @import 'components/image-gallery.css';
 @import 'components/meme-editor.css';

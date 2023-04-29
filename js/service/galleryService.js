@@ -12,8 +12,7 @@ function createImgs() {
     for (let i = 0; i < 18; i++) {
         gImgs.push({
             id: i + 1,
-            url: `<img src="images/${i + 1}.jpg" id=${i + 1
-                } onclick="onImgSelect(id)">`,
+            url: `<img src="images/${i + 1}.jpg" id=${i + 1} onclick="onImgSelect(id)">`,
             keywords: ['funny', 'cat'],
         });
     }
@@ -50,3 +49,4 @@ function loadImageFromInput(ev, onImageReady) {
 function setimgid() {
     gMeme.selectedImgId = 19;
 }
+

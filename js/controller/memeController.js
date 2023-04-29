@@ -2,7 +2,6 @@
 
 const gElCanvas = document.querySelector('#my-canvas');
 let gEmojiIdx = 0;
-let gIsDragging = false
 const EMOJI_SIZE = 4;
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend'];
 const gCtx = gElCanvas.getContext('2d');
@@ -25,7 +24,6 @@ function addTouchListeners() {
 }
 
 function onDown(ev) {
-    console.log('Down')
     // Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
     // console.log('pos', pos)
@@ -37,9 +35,30 @@ function onDown(ev) {
     document.body.style.cursor = 'grabbing'
 }
 
+// function checkIfLineClicked(ev) {
+//     const pos = getEvPos(ev)
+//     const memeDetails = getMeme().lines
+//     for (let i = 0; i < memeDetails.length; i++) {
+//         const line = memeDetails[i]
+//         const { width, actualBoundingBoxAscent, actualBoundingBoxDescent } = gCtx.measureText(line.txt)
+//         const { pos: { x, y }, fontSize } = line
+//         const lineHeight = fontSize * 1.286
+//         const top = y - actualBoundingBoxAscent - 0.5 * lineHeight
+//         const bottom = y + actualBoundingBoxDescent + 0.5 * lineHeight
+//         const left = x - width / 2
+//         const right = x + width / 2
+//         if (pos.x >= left && pos.x <= right && pos.y >= top && pos.y <= bottom) {
+//             setLineDrag(true)
+//             gMeme.selectedLineIdx = i
+//             renderMeme()
+//             return true
+//         }
+//     }
+//     return false
+// }
+
 function onMove(ev) {
-    console.log('Move')
-    const { isDrag } = getMeme().lines[selectedLineIdx]
+    const { isDrag } = getMeme().lines[gMeme.selectedLineIdx]
     if (!isDrag) return
 
     const pos = getEvPos(ev)
@@ -55,7 +74,7 @@ function onMove(ev) {
 
 function onUp() {
     setLineDrag(false)
-    document.body.style.cursor = 'grab'
+    document.body.style.cursor = 'default'
 }
 
 
@@ -291,3 +310,6 @@ function getFonts() {
     return elFontOptionValues;
 }
 
+function clearCanvas() {
+    gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
+}

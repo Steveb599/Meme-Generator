@@ -7,6 +7,7 @@ var gLanguage = 'en'
 function onInitGallery() {
     renderGallery()
     onShowGallery()
+    onSetLang(gLanguage)
 }
 
 
@@ -65,6 +66,7 @@ function renderGallery() {
 }
 
 function onImgSelect(id) {
+    deleteAllText()
     setImg(id)
     onShowMemeEditor()
     renderMeme()
@@ -77,8 +79,7 @@ function renderImg(img) {
 
 function onGenerateRandomMeme() {
     generateRandomMeme()
+    clearCanvas()
     renderMeme()
     onShowMemeEditor()
 }
-
-
