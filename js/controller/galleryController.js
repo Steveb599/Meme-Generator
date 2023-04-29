@@ -22,6 +22,7 @@ function onShowAbout() {
     elImageGallery.classList.add('hidden');
     elAboutSection.classList.remove('hidden');
     elSavedMemes.classList.add('hidden');
+    doTrans()
 }
 
 function onShowGallery() {
@@ -33,6 +34,7 @@ function onShowGallery() {
     elImageGallery.classList.remove('hidden');
     elAboutSection.classList.add('hidden');
     elSavedMemes.classList.add('hidden');
+    doTrans()
 }
 
 function onShowSavedMemes() {
@@ -44,6 +46,7 @@ function onShowSavedMemes() {
     elImageGallery.classList.add('hidden');
     elAboutSection.classList.add('hidden');
     elSavedMemes.classList.remove('hidden');
+    doTrans()
 }
 
 function onShowMemeEditor() {
@@ -55,12 +58,13 @@ function onShowMemeEditor() {
     elImageGallery.classList.add('hidden');
     elAboutSection.classList.add('hidden');
     elSavedMemes.classList.add('hidden');
+    doTrans()
 }
 
 function renderGallery() {
     const container = document.querySelector('.image-container')
     let strHtmls = images.map(image => `${image.url}`)
-    strHtmls = `<div class="custom-file-input"><label for="img">Upload an Image</label>
+    strHtmls = `<div class="custom-file-input"><label for="img" data-trans="upload-image">Upload an Image</label>
 <input type="file" id="img" class="file-input" name="image" onchange="onImgInput(event)" style="display: none"></div>` + strHtmls.join('')
     container.innerHTML = strHtmls
 }

@@ -18,20 +18,20 @@ const gTrans = {
         he: 'הוסף טקסט',
     },
     'share-button': {
-        en: 'Share',
-        he: 'שתף',
+        en: ' Share',
+        he: 'שתף ',
     },
     'download-button': {
         en: 'Download',
         he: 'הורד',
     },
     'save-button': {
-        en: 'Save',
-        he: 'שמור',
+        en: ' Save',
+        he: ' שמור',
     },
     'download-button': {
-        en: 'Download',
-        he: 'הורד',
+        en: ' Download',
+        he: 'הורד ',
     },
     'image-search': {
         en: 'Search for Image',
@@ -67,11 +67,11 @@ const gTrans = {
     },
     'about-head': {
         en: "Welcome to Steve's Meme Generator Project!",
-        he: 'עוד',
+        he: 'ברוכים הבאים למחולל הממים של סטיב',
     },
     'about-first-section': {
         en: 'This project is a fun and interactive web application that allows users to create custom memes with their own captions and share them with the world.',
-        he: 'פרויקט זה הוא פרויקט כיפי ואפליקציית ווב אינטראקטיבית שמאפשרת למשתמשים לייצר ממים עם הכתוביות שלהם ולשתף את המם שהם יצרו עם העולם',
+        he: 'פרויקט זה הוא פרויקט ווב אינטראקטיבי עם התאמה למובייל שמאפשר למשתמשים לייצר ממים עם הכתוביות שלהם ולשתף את המם שהם יצרו עם העולם',
     },
     'about-second-section': {
         en: 'As a student at Coding Academy, I developed this project using web technologies such as HTML, CSS, and JavaScript.The project utilizes a canvas element to render the memes and provides users with various options to ustomize their memes.Users can choose from a collection of images, change the font size and color, add multiple captions, and download the memes to share them with their friends and family.',
@@ -85,6 +85,10 @@ const gTrans = {
         en: "I'm flexible",
         he: 'מם רנדומלי',
     },
+    'upload-image': {
+        en: 'Upload an Image',
+        he: 'לחץ על מנת להעלות תמונה'
+    }
 };
 
 let gCurrLang = 'en';
@@ -107,8 +111,14 @@ function doTrans() {
     });
 }
 
+document.getElementById("language-toggle").addEventListener("click", function () {
+    let lang = document.getElementById("language-toggle").checked ? "he" : "en";
+    onSetLang(lang);
+})
+
 function onSetLang(lang) {
     if (lang === 'he') document.body.classList.add('rtl');
     else document.body.classList.remove('rtl');
     gCurrLang = lang;
+    doTrans()
 }

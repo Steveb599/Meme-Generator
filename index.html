@@ -24,8 +24,8 @@
             <div class="switch">
                 <input id="language-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
                 <label for="language-toggle"></label>
-                <span value="en" onclick="onsetLang(this.value)" class="on">EN</span>
-                <span value="he" onclick="onsetLang(this.value)" class="off">HE</span>
+                <span value="en" onchange="onSetLang(this.value)" class="on">EN</span>
+                <span value="he" onchange="onSetLang(this.value)" class="off">HE</span>
             </div>
             <ul class="clean-list flex">
 
@@ -124,13 +124,15 @@
                     </li>
                     <li class="flex space-between">
                         <button class="btn save-btn" onclick="onUploadImg()"><i
-                                class="fa-sharp fa-solid fa-share-nodes"></i><span> Share</span></button>
+                                class="fa-sharp fa-solid fa-share-nodes"></i><span data-trans="share-button">
+                                Share</span></button>
                         <button class="btn save-btn" onclick="downloadImg(this)"><a href="#"
-                                download="GeneratedMeme.jpg"><i class="fa-solid fa-down-long"></i><span>
+                                download="GeneratedMeme.jpg"><i class="fa-solid fa-down-long"></i><span
+                                    data-trans="download-button">
                                     Download</span></i>
                             </a></button>
-                        <button class="btn save-btn" data-trans="save-button" onclick="onSaveMeme()"><i
-                                class="fa-solid fa-image"></i><span> Save</span></button>
+                        <button class="btn save-btn" onclick="onSaveMeme()"><i class="fa-solid fa-image"></i><span
+                                data-trans="save-button"> Save</span></button>
 
                     </li>
                 </ul>

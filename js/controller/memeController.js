@@ -27,12 +27,18 @@ function onDown(ev) {
     // Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
     // console.log('pos', pos)
-    if (!isLineClicked(pos)) return
-    setLineDrag(true)
-    //Save the pos we start from
-    gStartPos = pos
-    document.body.style.cursor = 'grabbing'
+    if (isLineClicked(pos)) {
+        setLineDrag(true)
+        //Save the pos we start from
+        gStartPos = pos
+        document.body.style.cursor = 'grabbing'
+    }
+    // else if (isEmojiClicked(pos)) {
+    //     setEmojiDrag(true);
+    //     gStartPos = pos;
+    //     document.body.style.cursor = 'grabbing';
 }
+
 
 function onMove(ev) {
     const { isDrag } = getMeme().lines[gMeme.selectedLineIdx]
@@ -284,15 +290,17 @@ function onSaveMeme() {
     saveMeme();
 }
 
+
 function renderSavedMemes() {
     const savedMemes = getSavedMemes()
-    const savedMemesContainer = document.querySelector('.saved-memes-container')
-    savedMemes.forEach(function (savedMeme) {
-        gCtx.font = `${line.fontSize}px ${line.font}`;
-        gCtx.fillStyle = line.colorFill;
-        gCtx.strokeStyle = line.colorStroke;
-        gCtx.textAlign = line.align;
-        gCtx.stroke()
+    const elSavedMemesContainer = document.querySelector('.saved-memes-container')
+    elSavedMemesContainer.innerHTML = ''
+    savedMemes.forEach((meme) => {
+        const memeImgUrl = `images/${meme.selectedImgId}.jpg`;
+        const memeEl = document.createElement('div');
+        memeEl.classList.add('meme');
+        memeEl.style.backgroundImage = `url(${memeImgUrl})`;
+        elSavedMemesContainer.appendChild(memeEl);
     })
 }
 
