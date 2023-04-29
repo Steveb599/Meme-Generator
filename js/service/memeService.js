@@ -86,6 +86,19 @@ function moveLine(dx, dy) {
     gMeme.lines[gMeme.selectedLineIdx].pos.y += dy
 }
 
+function isLineClicked(clickedPos) {
+    const pos = {
+        x: gMeme.lines[gMeme.selectedLineIdx].pos.x,
+        y: gMeme.lines[gMeme.selectedLineIdx].pos.x
+    }
+    // Calc the distance between two dots
+    const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
+    // console.log('distance', distance)
+    //If its smaller then the radius of the circle we are inside
+    return distance
+    // <= gCircle.size
+}
+
 
 function selectEmoji(emoji) {
     gMeme.selectedEmojis = emoji;

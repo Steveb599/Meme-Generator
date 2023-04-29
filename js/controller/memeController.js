@@ -9,19 +9,9 @@ const gCtx = gElCanvas.getContext('2d');
 var gStartPos = {};
 const memes = getMeme();
 const memeDetails = memes.lines;
-// addMouseListeners()
+addMouseListeners()
 
-// function addMouseListeners() {
-//     gElCanvas.addEventListener('mousedown', onDown);
-//     gElCanvas.addEventListener('mousemove', onMove);
-//     gElCanvas.addEventListener('mouseup', onUp);
-// }
 
-// function addTouchListeners() {
-//     gElCanvas.addEventListener('touchstart', onDown);
-//     gElCanvas.addEventListener('touchmove', onMove);
-//     gElCanvas.addEventListener('touchend', onUp);
-// }
 function addMouseListeners() {
     gElCanvas.addEventListener('mousedown', onDown)
     gElCanvas.addEventListener('mousemove', onMove)
@@ -39,7 +29,7 @@ function onDown(ev) {
     // Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
     // console.log('pos', pos)
-    if (!isCircleClicked(pos)) return
+    if (!isLineClicked(pos)) return
 
     setLineDrag(true)
     //Save the pos we start from
@@ -49,7 +39,7 @@ function onDown(ev) {
 
 function onMove(ev) {
     console.log('Move')
-    const { isDrag } = getCircle()
+    const { isDrag } = getMeme().lines[selectedLineIdx]
     if (!isDrag) return
 
     const pos = getEvPos(ev)
@@ -60,11 +50,10 @@ function onMove(ev) {
     // Save the last pos , we remember where we`ve been and move accordingly
     gStartPos = pos
     // The canvas is render again after every move
-    renderCanvas()
+    renderMeme()
 }
 
 function onUp() {
-    console.log('Up')
     setLineDrag(false)
     document.body.style.cursor = 'grab'
 }
