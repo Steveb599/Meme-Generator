@@ -23,15 +23,11 @@ const gTrans = {
     },
     'download-button': {
         en: 'Download',
-        he: 'הורד',
+        he: ' הורד',
     },
     'save-button': {
         en: ' Save',
         he: ' שמור',
-    },
-    'download-button': {
-        en: ' Download',
-        he: 'הורד ',
     },
     'image-search': {
         en: 'Search for Image',

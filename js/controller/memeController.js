@@ -97,7 +97,7 @@ function renderMeme(img) {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height);
         fillTextinCanvas(memeDetails, gCtx);
         const selectedEmojiID = memes.selectedEmojis;
-        if (selectedEmojiID.length) {
+        if (selectedEmojiID !== null) {
             selectedEmojiID.forEach((emojiID) => {
                 const emojis = getEmojis()
                 const selectedEmoji = emojis[emojiID];
@@ -290,6 +290,7 @@ function onSaveMeme() {
     saveMeme();
 }
 
+renderSavedMemes()
 
 function renderSavedMemes() {
     const savedMemes = getSavedMemes()

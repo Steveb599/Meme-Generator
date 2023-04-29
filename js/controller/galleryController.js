@@ -59,6 +59,7 @@ function onShowMemeEditor() {
     elAboutSection.classList.add('hidden');
     elSavedMemes.classList.add('hidden');
     doTrans()
+    onInit()
 }
 
 function renderGallery() {

@@ -2,27 +2,9 @@ const gEmojis = ['😂', '😜', '🤔', '😊', '😎', '🙄', '😴', '😷',
 
 const STORAGE_KEY = 'memeDB';
 let gMemes = []
-const memeStrings = [
-    'What if I told you',
-    'When you realise',
-    'Coding is fun',
-    'Did someone say',
-    'Not sure if',
-    'This is why you need',
-    'One does not simply',
-    'Haters gonna hate',
-    'I am not saying it was',
-    'You must be very proud',
-    'I have a surprise for you',
-    'You gotta be kidding me',
-    'it doesnt work...why?',
-    'it works...why?',
-    'my program: *works perfectly*',
-    'Not sure if I am a good programmer',
-    'Stackoverflow for the win',
-    'Me after 1 hour of coding',
-    'Me: sends programming meme',
+const memeStrings = ['What if I told you', 'When you realise', 'Coding is fun', 'Did someone say', 'Not sure if', 'This is why you need', 'One does not simply', 'Haters gonna hate', 'I am not saying it was', 'You must be very proud', 'I have a surprise for you', 'You gotta be kidding me', 'it doesnt work...why?', 'it works...why?', 'my program: *works perfectly*', 'Not sure if I am a good programmer', 'Stackoverflow for the win', 'Me after 1 hour of coding', 'Me: sends programming meme',
 ];
+
 const canvas = document.querySelector('#my-canvas');
 const gKeywordSearchCountMap = { funny: 12, cat: 16, baby: 2 };
 let gMeme = {
@@ -221,7 +203,7 @@ function generateRandomMeme() {
     }
     gMeme.selectedImgId = randomImageId;
     gMeme.lines.forEach((line, idx) => {
-        gMeme.selectedEmojis = null
+        gMeme.selectedEmojis = []
         if (idx < numOfLines) {
             gMeme.selectedLineIdx = idx;
             line.txt = !idx ? randomString : secondRandomString;
@@ -235,15 +217,18 @@ function generateRandomMeme() {
 }
 
 function saveMeme() {
-    const memes = loadFromStorage('memeDB') || [];
-    memes.push(gMeme);
-    saveToStorage('memeDB', memes);
+    let memes = loadFromStorage('memeDB') || []
+    if (!Array.isArray(memes)) {
+        memes = []
+    }
+    memes.push(gMeme)
+    saveMemestoStorage()
 }
-
 
 
 function getSavedMemes() {
     gMemes = loadFromStorage(STORAGE_KEY)
+    console.log(gMemes)
     if (!gMemes.length) gMemes = []
     return gMemes
 }
