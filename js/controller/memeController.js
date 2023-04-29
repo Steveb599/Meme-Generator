@@ -3,13 +3,13 @@
 const gElCanvas = document.querySelector('#my-canvas');
 let gEmojiIdx = 0;
 const EMOJI_SIZE = 4;
-const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend'];
+const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup'];
 const gCtx = gElCanvas.getContext('2d');
 var gStartPos = {};
 const memes = getMeme();
 const memeDetails = memes.lines;
 addMouseListeners()
-
+addTouchListeners()
 
 function addMouseListeners() {
     gElCanvas.addEventListener('mousedown', onDown)
@@ -28,34 +28,11 @@ function onDown(ev) {
     const pos = getEvPos(ev)
     // console.log('pos', pos)
     if (!isLineClicked(pos)) return
-
     setLineDrag(true)
     //Save the pos we start from
     gStartPos = pos
     document.body.style.cursor = 'grabbing'
 }
-
-// function checkIfLineClicked(ev) {
-//     const pos = getEvPos(ev)
-//     const memeDetails = getMeme().lines
-//     for (let i = 0; i < memeDetails.length; i++) {
-//         const line = memeDetails[i]
-//         const { width, actualBoundingBoxAscent, actualBoundingBoxDescent } = gCtx.measureText(line.txt)
-//         const { pos: { x, y }, fontSize } = line
-//         const lineHeight = fontSize * 1.286
-//         const top = y - actualBoundingBoxAscent - 0.5 * lineHeight
-//         const bottom = y + actualBoundingBoxDescent + 0.5 * lineHeight
-//         const left = x - width / 2
-//         const right = x + width / 2
-//         if (pos.x >= left && pos.x <= right && pos.y >= top && pos.y <= bottom) {
-//             setLineDrag(true)
-//             gMeme.selectedLineIdx = i
-//             renderMeme()
-//             return true
-//         }
-//     }
-//     return false
-// }
 
 function onMove(ev) {
     const { isDrag } = getMeme().lines[gMeme.selectedLineIdx]
@@ -65,6 +42,7 @@ function onMove(ev) {
     // Calc the delta , the diff we moved
     const dx = pos.x - gStartPos.x
     const dy = pos.y - gStartPos.y
+    if (dx > gElCanvas.width || dy > gElCanvas.height) return
     moveLine(dx, dy)
     // Save the last pos , we remember where we`ve been and move accordingly
     gStartPos = pos
@@ -84,8 +62,10 @@ function getEvPos(ev) {
         x: ev.offsetX,
         y: ev.offsetY,
     }
+    console.log('ev.type:', ev.type)
     // Check if its a touch ev
-    if (TOUCH_EVS.includes(ev.type)) {
+    if (ev.type.startsWith('touch')) {
+        console.log(ev)
         //soo we will not trigger the mouse ev
         ev.preventDefault()
         //Gets the first touch point
@@ -104,20 +84,25 @@ function renderMeme(img) {
     let elImg = new Image();
     if (img) {
         elImg = img;
-    } else if (memes.selectedImgId !== 19) {
+    } else if (memes.selectedImgId !== null) {
         elImg.src = `images/${memes.selectedImgId}.jpg`;
     }
-    console.log('999');
     elImg.onload = () => {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height);
         fillTextinCanvas(memeDetails, gCtx);
         const selectedEmojiID = memes.selectedEmojis;
-        if (selectedEmojiID !== null) {
-            const selectedEmoji = gEmojis[selectedEmojiID];
-            gCtx.font = '30px arial';
-            gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2);
+        if (selectedEmojiID.length) {
+            selectedEmojiID.forEach((emojiID) => {
+                const emojis = getEmojis()
+                const selectedEmoji = emojis[emojiID];
+                gCtx.font = '30px arial';
+                gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2);
+            });
         }
     };
+    if (memes.selectedImgId === null) {
+        fillTextinCanvas(memeDetails, gCtx);
+    }
     updateMemeTextInput();
 
 }
@@ -299,10 +284,17 @@ function onSaveMeme() {
     saveMeme();
 }
 
-// function onSaveMeme() {
-// const meme = getMeme()
-//  saveMemetoStorage('memeDB', meme)
-// }
+function renderSavedMemes() {
+    const savedMemes = getSavedMemes()
+    const savedMemesContainer = document.querySelector('.saved-memes-container')
+    savedMemes.forEach(function (savedMeme) {
+        gCtx.font = `${line.fontSize}px ${line.font}`;
+        gCtx.fillStyle = line.colorFill;
+        gCtx.strokeStyle = line.colorStroke;
+        gCtx.textAlign = line.align;
+        gCtx.stroke()
+    })
+}
 
 function getFonts() {
     let elFontElement = document.querySelector('.select-font');

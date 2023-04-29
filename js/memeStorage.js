@@ -10,8 +10,8 @@ function saveToStorage(key, val) {
     localStorage.setItem(key, JSON.stringify(val))
 }
 
-function saveMemetoStorage() {
-    saveToStorage(STORAGE_KEY, meme)
+function saveMemestoStorage() {
+    saveToStorage(STORAGE_KEY, gMeme)
 }
 
 function loadMemeFromStorage() {

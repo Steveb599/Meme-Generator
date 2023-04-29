@@ -47,6 +47,6 @@ function loadImageFromInput(ev, onImageReady) {
 }
 
 function setimgid() {
-    gMeme.selectedImgId = 19;
+    gMeme.selectedImgId = null;
 }
 

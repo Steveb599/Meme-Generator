@@ -18,7 +18,7 @@ const gEmojis = [
 ];
 
 const STORAGE_KEY = 'memeDB';
-
+let gMemes = []
 const memeStrings = [
     'What if I told you',
     'When you realise',
@@ -45,7 +45,7 @@ const gKeywordSearchCountMap = { funny: 12, cat: 16, baby: 2 };
 let gMeme = {
     selectedImgId: null,
     selectedLineIdx: 0,
-    selectedEmojis: null,
+    selectedEmojis: [],
     lines: [
         {
             txt: '',
@@ -86,21 +86,61 @@ function moveLine(dx, dy) {
     gMeme.lines[gMeme.selectedLineIdx].pos.y += dy
 }
 
+// function isLineClicked(clickedPos) {
+//     const pos = {
+//         x: gMeme.lines[gMeme.selectedLineIdx].pos.x,
+//         y: gMeme.lines[gMeme.selectedLineIdx].pos.x
+//     }
+//     // Calc the distance between two dots
+//     const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
+//     // console.log('distance', distance)
+//     //If its smaller then the radius of the circle we are inside
+//     return distance
+// }
+
 function isLineClicked(clickedPos) {
-    const pos = {
-        x: gMeme.lines[gMeme.selectedLineIdx].pos.x,
-        y: gMeme.lines[gMeme.selectedLineIdx].pos.x
+    const clickedLineIdx = gMeme.lines.findIndex((line) => {
+        const lineWidth = gCtx.measureText(line.txt).width;
+        const lineHeight = line.fontSize * 1.286;
+        let rectX, rectY, rectWidth, rectHeight;
+        if (line.align === "center") {
+            rectX = line.pos.x - lineWidth / 2;
+            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7;
+            rectWidth = lineWidth;
+            rectHeight = lineHeight + line.fontSize * 0.7;
+        } else if (line.align === "end") {
+            rectX = line.pos.x - lineWidth;
+            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7;
+            rectWidth = lineWidth;
+            rectHeight = lineHeight + line.fontSize * 0.7;
+        } else if (line.align === "start") {
+            rectX = line.pos.x;
+            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7;
+            rectWidth = lineWidth;
+            rectHeight = lineHeight + line.fontSize * 0.7;
+        }
+        return (
+            clickedPos.x >= rectX &&
+            clickedPos.x <= rectX + rectWidth &&
+            clickedPos.y >= rectY &&
+            clickedPos.y <= rectY + rectHeight
+        );
+    });
+    if (clickedLineIdx !== -1) {
+        updateLineIdx(clickedLineIdx);
+        return true;
     }
-    // Calc the distance between two dots
-    const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
-    // console.log('distance', distance)
-    //If its smaller then the radius of the circle we are inside
-    return distance
+    return false;
 }
 
+// function isEmojiClicked
+
+function updateLineIdx(idx) {
+    gMeme.selectedLineIdx = idx
+}
 
 function selectEmoji(emoji) {
-    gMeme.selectedEmojis = emoji;
+    gMeme.selectedEmojis.push(emoji);
 }
 
 function getMeme() {
@@ -135,6 +175,7 @@ function changeFont(font) {
 function deleteText() {
     gMeme.lines[gMeme.selectedLineIdx].txt = '';
     if (gMeme.selectedLineIdx > 0) [gMeme.selectedLineIdx--];
+    gMeme.selectedEmojis = []
 }
 
 function deleteAllText() {
@@ -214,6 +255,14 @@ function saveMeme() {
     const memes = loadFromStorage('memeDB') || [];
     memes.push(gMeme);
     saveToStorage('memeDB', memes);
+}
+
+
+
+function getSavedMemes() {
+    gMemes = loadFromStorage(STORAGE_KEY)
+    if (!gMemes.length) gMemes = []
+    return gMemes
 }
 
 function uploadImg() {
