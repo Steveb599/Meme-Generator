@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const gTrans = {
     'header-gallery': {
@@ -66,7 +66,7 @@ const gTrans = {
         he: 'עוד',
     },
     'about-head': {
-        en: 'Welcome to Steve\'s Meme Generator Project!',
+        en: "Welcome to Steve's Meme Generator Project!",
         he: 'עוד',
     },
     'about-first-section': {
@@ -78,47 +78,38 @@ const gTrans = {
         he: '  כתלמיד בבוטקאמפ קודינג אקדמי, אני פיתחתי את הפרוייקט הזה בעזרת טכנולוגיות ווב. הפרוייקט משתמש באלמנט קנבס לעיבוד ממים ולרנדר אותם על גבי המסך ומספק למשתמש אפשרויות שונות לשינוי הממים והתאמה אישית. המשתמש יכול לבחור ממגוון רחב של תמונות לבחירתו, לשנות את גודל הכתב, הצבע, להוסיף כתוביות ולהוריד ולשתף את המם שהוא יצר עם החברים והמשפחה.',
     },
     'about-third-section': {
-        en: 'So what are you waiting for? let\'s start making memes as well as having a good laugh😉',
-        he: 'אז למה אתם מחכים? בואו נתחיל לייצר ממים ולצחוק! 😉'
+        en: "So what are you waiting for? let's start making memes as well as having a good laugh😉",
+        he: 'אז למה אתם מחכים? בואו נתחיל לייצר ממים ולצחוק! 😉',
     },
     'flexible-button': {
-        en: 'I\'m flexible',
+        en: "I'm flexible",
         he: 'מם רנדומלי',
     },
-}
+};
 
-let gCurrLang = 'en'
+let gCurrLang = 'en';
 
 function getTrans(transKey) {
-    const transMap = gTrans[transKey]
-    if (!transMap) return 'UNKNOWN'
-    var transTxt = transMap[gCurrLang]
-    if (!transTxt) transTxt = transMap.en
-    return transTxt
+    const transMap = gTrans[transKey];
+    if (!transMap) return 'UNKNOWN';
+    var transTxt = transMap[gCurrLang];
+    if (!transTxt) transTxt = transMap.en;
+    return transTxt;
 }
 
 function doTrans() {
-    var els = document.querySelectorAll('[data-trans]')
-    els.forEach(el => {
-        const transKey = el.dataset.trans
-        const transTxt = getTrans(transKey)
-        if (el.placeholder) el.placeholder = transTxt
-        else el.innerText = transTxt
-    })
+    var els = document.querySelectorAll('[data-trans]');
+    els.forEach((el) => {
+        const transKey = el.dataset.trans;
+        const transTxt = getTrans(transKey);
+        if (el.placeholder) el.placeholder = transTxt;
+        else el.innerText = transTxt;
+    });
 }
 
-function setLang(lang) {
-    gCurrLang = lang
+function onSetLang(lang) {
+    setLang(lang);
+    if (lang === 'he') document.body.classList.add('rtl');
+    else document.body.classList.remove('rtl');
+    gCurrLang = lang;
 }
-
-const toggleLangInput = document.querySelector('#language-toggle')
-toggleLangInput.addEventListener('change', onSetLang)
-
-function onSetLang() {
-    const lang = toggleLangInput.checked ? 'he' : 'en'
-    setLang(lang)
-    if (lang === 'he') document.body.classList.add('rtl')
-    else document.body.classList.remove('rtl')
-    gLanguage = lang
-}
-

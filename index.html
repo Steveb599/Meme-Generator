@@ -24,8 +24,8 @@
             <div class="switch">
                 <input id="language-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
                 <label for="language-toggle"></label>
-                <span value="en" class="on">EN</span>
-                <span value="he" class="off">HE</span>
+                <span value="en" onclick="onsetLang(this.value)" class="on">EN</span>
+                <span value="he" onclick="onsetLang(this.value)" class="off">HE</span>
             </div>
             <ul class="clean-list flex">
 
@@ -80,16 +80,16 @@
                     </li>
                     <div class="button-container">
                         <li class="edit-button flex wrap">
-                            <button class="btn font-btn"><img src="ICONS/increase font - icon.png" alt=""
-                                    onclick="onChangeFontSize(+10)"></button>
-                            <button class="btn font-btn"><img src="ICONS/decrease font - icon.png" alt=""
-                                    onclick="onChangeFontSize(-10)"></button>
-                            <button class="btn font-btn"><img src="ICONS/align-to-left.png" alt=""
-                                    onclick="onChangeAlignText('end')"></button>
-                            <button class="btn font-btn"><img src="ICONS/center-text-alignment.png" alt=""
-                                    onclick="onChangeAlignText('center')"></button>
-                            <button class="btn font-btn"><img src="ICONS/align-to-right.png" alt=""
-                                    onclick="onChangeAlignText('start')"></button>
+                            <button class="btn font-btn" onclick="onChangeFontSize(+10)"><img
+                                    src="ICONS/increase font - icon.png" alt=""></button>
+                            <button class="btn font-btn" onclick="onChangeFontSize(-10)"><img
+                                    src="ICONS/decrease font - icon.png" alt=""></button>
+                            <button class="btn font-btn" onclick="onChangeAlignText('end')"><img
+                                    src="ICONS/align-to-left.png" alt=""></button>
+                            <button class="btn font-btn" onclick="onChangeAlignText('center')"><img
+                                    src="ICONS/center-text-alignment.png" alt=""></button>
+                            <button class="btn font-btn" onclick="onChangeAlignText('start')"><img
+                                    src="ICONS/align-to-right.png" alt=""></button>
 
                         </li>
                         <li class="edit-button flex align-center">
@@ -125,7 +125,7 @@
                     <li class="flex space-between">
                         <button class="btn save-btn" onclick="onUploadImg()"><i
                                 class="fa-sharp fa-solid fa-share-nodes"></i><span> Share</span></button>
-                        <button class="btn save-btn"><a href="#" onclick="downloadImg(this)"
+                        <button class="btn save-btn" onclick="downloadImg(this)"><a href="#"
                                 download="GeneratedMeme.jpg"><i class="fa-solid fa-down-long"></i><span>
                                     Download</span></i>
                             </a></button>
@@ -136,7 +136,7 @@
                 </ul>
             </div>
 
-            <section class="saved-memes">
+            <section class="saved-memes flex justify-center">
 
             </section>
 
