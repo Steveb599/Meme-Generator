@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 const gElCanvas = document.querySelector('#my-canvas')
 let gEmojiIdx = 0
@@ -106,7 +106,6 @@ function renderMeme(img) {
         fillTextinCanvas(memeDetails, gCtx)
     }
     updateMemeTextInput()
-
 }
 
 function renderEmojisOnCanvas(memes) {
