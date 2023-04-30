@@ -58,37 +58,48 @@ function isLineClicked(clickedPos) {
     const clickedLineIdx = gMeme.lines.findIndex((line) => {
         const lineWidth = gCtx.measureText(line.txt).width;
         const lineHeight = line.fontSize * 1.286
-        let rectX, rectY, rectWidth, rectHeight;
-        if (line.align === "center") {
-            rectX = line.pos.x - lineWidth / 2;
-            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
-            rectWidth = lineWidth
-            rectHeight = lineHeight + line.fontSize * 0.7
-        } else if (line.align === "end") {
-            rectX = line.pos.x - lineWidth;
-            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
-            rectWidth = lineWidth
-            rectHeight = lineHeight + line.fontSize * 0.7
-        } else if (line.align === "start") {
-            rectX = line.pos.x
-            rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
-            rectWidth = lineWidth
-            rectHeight = lineHeight + line.fontSize * 0.7
+        let rectX, rectY, rectWidth, rectHeight
+
+        switch (line.align) {
+            case 'center':
+                rectX = line.pos.x - lineWidth / 2;
+                rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
+                rectWidth = lineWidth
+                rectHeight = lineHeight + line.fontSize * 0.7
+                break;
+            case 'end':
+                rectX = line.pos.x - lineWidth;
+                rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
+                rectWidth = lineWidth
+                rectHeight = lineHeight + line.fontSize * 0.7
+                break;
+            case 'start':
+                rectX = line.pos.x
+                rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
+                rectWidth = lineWidth
+                rectHeight = lineHeight + line.fontSize * 0.7
+                break;
+            default:
+                rectX = 0
+                rectY = 0
+                rectWidth = 0
+                rectHeight = 0
+                break;
         }
         return (
             clickedPos.x >= rectX &&
             clickedPos.x <= rectX + rectWidth &&
             clickedPos.y >= rectY &&
             clickedPos.y <= rectY + rectHeight
-        );
-    });
+        )
+    })
+
     if (clickedLineIdx !== -1) {
         updateLineIdx(clickedLineIdx)
         return true
     }
     return false
 }
-
 
 function updateLineIdx(idx) {
     gMeme.selectedLineIdx = idx
