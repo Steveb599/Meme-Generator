@@ -14,58 +14,51 @@
     <title>Meme-Generator</title>
 </head>
 
-<body onload="onInitGallery()">
+<body onload="onInit()">
 
     <div class="main-screen menu-background" onclick="onToggleMenu()"></div>
-
     <header class="main-header flex space-between align-center">
-        <div class="logo"><img src="LOGO/LOGO.png" onclick="onInitGallery()" alt=""></div>
+        <div class="logo"><img src="LOGO/LOGO.png" onclick="onInit()" alt=""></div>
         <nav class="main-nav-container">
             <div class="switch">
                 <input id="language-toggle" class="check-toggle check-toggle-round-flat" type="checkbox">
                 <label for="language-toggle"></label>
-                <span value="en" class="on">EN</span>
-                <span value="he" class="off">HE</span>
+                <span value="en" class="english on">EN</span>
+                <span value="he" class="hebrew off">HE</span>
             </div>
             <ul class="clean-list flex">
-
-                <li><a href="#" onclick="onInitGallery()" data-trans="header-gallery">Gallery </a> </li>
-                <li><a href="#" onclick="onShowSavedMemes()" data-trans="header-saved">Saved Memes </a> </li>
-                <li><a href="#" onclick="onShowAbout()" data-trans="header-about">About</a></li>
+                <li><a href="#" onclick="onInit()" data-trans="header-gallery"></a> </li>
+                <li><a href="#" onclick="onShowSavedMemes()" data-trans="header-saved"></a> </li>
+                <li><a href="#" onclick="onShowAbout()" data-trans="header-about"></a></li>
             </ul>
             <button class="menu-button" onclick="onToggleMenu()">☰</button>
         </nav>
     </header>
 
     <main class="main-layout">
-
         <section class="image-gallery">
             <div class="search-header flex justify-even align-center">
                 <input type="text" class="search-box" data-trans="image-search" oninput="onSetFilterImage(value)"
                     placeholder="Search for Image.." />
                 <ul class="keywords-container wrap flex clean-list justify-even ">
-                    <li><a href="#" data-trans="funny-keyword">Funny</a> </li>
-                    <li><a href="#" data-trans="animal-keyword">Animal</a> </li>
-                    <li><a href="#" data-trans="men-keyword">Men</a> </li>
-                    <li><a href="#" data-trans="women-keyword">Women</a> </li>
-                    <li><a href="#" data-trans="comic-keyword">comic</a> </li>
-                    <li><a href="#" data-trans="smile-keyword">smile</a> </li>
+                    <li><a href="#" data-trans="funny-keyword"></a></li>
+                    <li><a href="#" data-trans="animal-keyword"></a></li>
+                    <li><a href="#" data-trans="men-keyword"></a></li>
+                    <li><a href="#" data-trans="women-keyword"></a></li>
+                    <li><a href="#" data-trans="comic-keyword"></a></li>
+                    <li><a href="#" data-trans="smile-keyword"></a></li>
                 </ul>
-                <button class="gallery-btn" data-trans="more-button">More</button>
-                <button class="gallery-btn" onclick="onGenerateRandomMeme()" data-trans="flexible-button">I'm
-                    flexible</button>
+                <!-- <button class="gallery-btn" data-trans="more-button">More</button> -->
+                <button class="gallery-btn" onclick="onGenerateRandomMeme()" data-trans="flexible-button"></button>
             </div>
             <div class="image-container flex justify-center">
                 <!-- render through Javascript all images -->
             </div>
         </section>
-
-
         <section class="meme-editor flex wrap align-center justify-even">
             <div class="canvas-container">
                 <canvas id="my-canvas" width="500" height="500"></canvas>
             </div>
-
             <div class="meme-control flex align-center">
                 <ul class="meme-control-ul flex clean-list">
                     <li><input type="text" value="" class="meme-text-input" data-trans="input-text"
@@ -75,8 +68,8 @@
                                 src="ICONS/up-and-down-opposite-double-arrows-side-by-side.png" alt=""
                                 onclick="onSwitchBetweenLines()"></button>
                         <button class="btn btn-add-line"><img src="ICONS/add.png" alt="" onclick="onAddLine()"></button>
-                        <button class="btn btn-remove-line"><img src="ICONS/trash.png" alt=""
-                                onclick="onDeleteText()"></button>
+                        <button class="btn btn-remove-line" onclick="onDeleteText()"><img src="ICONS/trash.png"
+                                alt=""></button>
                     </li>
                     <div class="button-container">
                         <li class="edit-button flex wrap">
@@ -90,7 +83,6 @@
                                     src="ICONS/center-text-alignment.png" alt=""></button>
                             <button class="btn font-btn" onclick="onChangeAlignText('start')"><img
                                     src="ICONS/align-to-right.png" alt=""></button>
-
                         </li>
                         <li class="edit-button flex align-center">
                             <select class="select-font" onchange="onChangeFont(this.value)">
@@ -112,7 +104,6 @@
                             </button>
                         </li>
                     </div>
-
                     <li>
                         <div class="emoji-container flex space-between align-center">
                             <button class="btn prev-btn" onclick="onPrevEmojis()"><i
@@ -124,53 +115,27 @@
                     </li>
                     <li class="flex space-between">
                         <button class="btn save-btn" onclick="onUploadImg()"><i
-                                class="fa-sharp fa-solid fa-share-nodes"></i><span data-trans="share-button">
-                                Share</span></button>
+                                class="fa-sharp fa-solid fa-share-nodes"></i><span
+                                data-trans="share-button"></span></button>
                         <button class="btn save-btn" onclick="downloadImg(this)"><a href="#"
-                                download="GeneratedMeme.jpg"><i class="fa-solid fa-down-long"></i><span
-                                    data-trans="download-button">
-                                    Download</span></i>
-                            </a></button>
+                                download="GeneratedMeme.png"><i class="fa-solid fa-down-long"></i><span
+                                    data-trans="download-button"></span></i></a></button>
                         <button class="btn save-btn" onclick="onSaveMeme()"><i class="fa-solid fa-image"></i><span
-                                data-trans="save-button"> Save</span></button>
-
+                                data-trans="save-button"></span></button>
                     </li>
                 </ul>
             </div>
-
-
         </section>
-
         <section class="saved-memes">
-            <h3>Oops..there are no saved memes yet</h3>
             <div class="saved-memes-container flex justify-center">
-                <!-- render through Javascript all images -->
             </div>
         </section>
         <section class="about-container">
-            <h3 data-trans="about-head">Welcome to Steve's Meme Generator Project!</h3>
-            <p><span data-trans="about-first-section">This project is a fun and interactive web
-                    application that
-                    allows users to create
-                    custom memes with their own captions and share them with the world.</span></p>
-            <p><span data-trans="about-second-section">As a student at Coding Academy, I developed this project using
-                    web technologies such
-                    as HTML, CSS, and
-                    JavaScript. The project utilizes a canvas element to render the memes and provides users with
-                    various
-                    options to
-                    customize their memes. Users can choose from a collection of images, change the font size and color,
-                    add
-                    multiple
-                    captions, and download the memes to share them with their friends and family.</span></p>
-
-            <p> <span data-trans="about-third-section">So what are you waiting for? let's start making memes as well as
-                    having a good
-                    laugh😉</span></p>
-
-
+            <h3 data-trans="about-head"></h3>
+            <p><span data-trans="about-first-section"></span></p>
+            <p><span data-trans="about-second-section"></span></p>
+            <p> <span data-trans="about-third-section"></span></p>
         </section>
-
     </main>
     <script src="js/i18n.js"></script>
     <script src="js/util.js"></script>
@@ -179,8 +144,6 @@
     <script src="js/service/galleryService.js"></script>
     <script src="js/controller/memeController.js"></script>
     <script src="js/controller/galleryController.js"></script>
-
-
 </body>
 
 </html>

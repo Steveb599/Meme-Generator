@@ -1,10 +1,9 @@
 'use strict'
 
 let images = getImgs()
+let gLanguage = 'en'
 
-var gLanguage = 'en'
-
-function onInitGallery() {
+function onInit() {
     renderGallery()
     onShowGallery()
     onSetLang(gLanguage)
@@ -56,7 +55,7 @@ function onShowMemeEditor() {
     elAboutSection.classList.add('hidden')
     elSavedMemes.classList.add('hidden')
     doTrans()
-    onInit()
+    onInitMemeEditor()
 }
 
 function renderGallery() {
@@ -80,8 +79,16 @@ function renderImg(img) {
 }
 
 function onGenerateRandomMeme() {
-    generateRandomMeme()
     clearCanvas()
+    generateRandomMeme()
     renderMeme()
     onShowMemeEditor()
+}
+
+function changeLanguage(lang) {
+    gLanguage = lang
+}
+
+function onDeleteSavedMeme() {
+    deleteSavedMeme()
 }

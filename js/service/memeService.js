@@ -1,19 +1,21 @@
 const gEmojis = ['😂', '😜', '🤔', '😊', '😎', '🙄', '😴', '😷', '🤯', '🚀', '🌈', '🦄', '🍕', '🍔', '🍩', '🍺',]
-
+let gCurrEditMemeID
 const STORAGE_KEY = 'memeDB'
-let gMemes = []
+let savedMemes = []
 const memeStrings = ['What if I told you', 'When you realise', 'Coding is fun', 'Did someone say', 'Not sure if', 'This is why you need', 'One does not simply', 'Haters gonna hate', 'I am not saying it was', 'You must be very proud', 'I have a surprise for you', 'You gotta be kidding me', 'it doesnt work...why?', 'it works...why?', 'my program: *works perfectly*', 'Not sure if I am a good programmer', 'Stackoverflow for the win', 'Me after 1 hour of coding', 'Me: sends programming meme',
 ]
 
 const canvas = document.querySelector('#my-canvas')
-const gKeywordSearchCountMap = { funny: 12, cat: 16, baby: 2 }
 let gMeme = {
     selectedImgId: null,
     selectedLineIdx: 0,
     selectedEmojis: [],
+    selectedEmojiIdx: 0,
+    isSave: false,
+    isEdit: false,
     lines: [
         {
-            txt: '',
+            txt: 'Add meme text',
             fontSize: 30,
             font: 'impact',
             align: 'center',
@@ -41,8 +43,16 @@ let gMeme = {
     ],
 }
 
+function onChangeRect() {
+    gMeme.isSave = true
+}
+
 function setLineDrag(isDrag) {
     gMeme.lines[gMeme.selectedLineIdx].isDrag = isDrag
+}
+
+function setEmojiDrag(isDrag) {
+    gMeme.selectedEmojis[gMeme.selectedEmojiIdx].isDrag = isDrag
 }
 
 // Move the circle in a delta, diff from the pervious pos
@@ -50,18 +60,6 @@ function moveLine(dx, dy) {
     gMeme.lines[gMeme.selectedLineIdx].pos.x += dx
     gMeme.lines[gMeme.selectedLineIdx].pos.y += dy
 }
-
-// function isLineClicked(clickedPos) {
-//     const pos = {
-//         x: gMeme.lines[gMeme.selectedLineIdx].pos.x,
-//         y: gMeme.lines[gMeme.selectedLineIdx].pos.x
-//     }
-//     // Calc the distance between two dots
-//     const distance = Math.sqrt((pos.x - clickedPos.x) ** 2 + (pos.y - clickedPos.y) ** 2)
-//     // console.log('distance', distance)
-//     //If its smaller then the radius of the circle we are inside
-//     return distance
-// }
 
 function isLineClicked(clickedPos) {
     const clickedLineIdx = gMeme.lines.findIndex((line) => {
@@ -104,8 +102,12 @@ function updateLineIdx(idx) {
     gMeme.selectedLineIdx = idx
 }
 
-function selectEmoji(emoji) {
-    gMeme.selectedEmojis.push(emoji)
+function updateEmojiIdx(idx) {
+    gMeme.selectedEmojiIdx = idx
+}
+
+function selectEmoji(sticker) {
+    gMeme.selectedEmojis.push({ emoji: sticker, isDrag: false })
 }
 
 function getMeme() {
@@ -121,13 +123,7 @@ function setImg(id) {
     renderMeme()
 }
 
-function setFillColor(color) {
-    gMeme.lines[gMeme.selectedLineIdx].colorFill = color
-}
 
-function setStrokeColor(color) {
-    gMeme.lines[gMeme.selectedLineIdx].colorStroke = color
-}
 
 function ChangeFontSize(num) {
     gMeme.lines[gMeme.selectedLineIdx].fontSize += num
@@ -135,6 +131,14 @@ function ChangeFontSize(num) {
 
 function changeFont(font) {
     gMeme.lines[gMeme.selectedLineIdx].font = font
+}
+
+function setFillColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].colorFill = color
+}
+
+function setStrokeColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].colorStroke = color
 }
 
 function deleteText() {
@@ -177,13 +181,11 @@ function addLine() {
 }
 
 function generateRandomMeme() {
-    deleteAllText()
     const images = getImgs()
     const fonts = getFonts()
     const randomFont = fonts[getRandomIntInclusive(0, fonts.length - 1)]
     const randomImageId = getRandomIntInclusive(1, images.length)
-    const randomString =
-        memeStrings[getRandomIntInclusive(0, memeStrings.length - 1)]
+    const randomString = memeStrings[getRandomIntInclusive(0, memeStrings.length - 1)]
     let secondRandomString
     const randomStrokeClr = getRandomColor()
     const randomFillClr = getRandomColor()
@@ -213,20 +215,30 @@ function generateRandomMeme() {
     });
 }
 
-function saveMeme() {
-    // let memes = loadFromStorage('memeDB') || []
-    // if (!Array.isArray(memes)) {
-    //     memes = []
-    // }
-    // memes.push(gMeme)
-    // saveMemestoStorage()
+function saveMeme(url) {
+    gMeme.imgurl = url
+    if (gMeme.isEdit) savedMemes.splice(gCurrEditMemeID, 1)
+    savedMemes.unshift({ ...gMeme })
+    saveToStorage(STORAGE_KEY, savedMemes)
 }
 
+function deleteSavedMeme(idx) {
+    savedMemes = loadFromStorage(STORAGE_KEY)
+    savedMemes.splice(idx, 1)
+    saveToStorage(STORAGE_KEY, savedMemes)
+    renderSavedMemes()
+}
 
 function getSavedMemes() {
-    gMemes = loadFromStorage(STORAGE_KEY)
-    if (!gMemes) gMemes = []
-    return gMemes
+    savedMemes = loadFromStorage(STORAGE_KEY)
+    if (!savedMemes) savedMemes = []
+    return savedMemes
+}
+
+function updateMemeFromSaved(id) {
+    gMeme = savedMemes[id]
+    gMeme.isEdit = true
+    gCurrEditMemeID = id
 }
 
 function uploadImg() {
@@ -264,7 +276,6 @@ function doUploadImg(imgDataUrl, onSuccess) {
 
         // If the response is ok, call the onSuccess callback function,
         // that will create the link to facebook using the url we got
-        console.log('Got back live url:', url);
         onSuccess(url);
     }
     XHR.onerror = (req, ev) => {

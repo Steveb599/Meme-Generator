@@ -1,15 +1,15 @@
 'use strict'
 
-const gElCanvas = document.querySelector('#my-canvas')
+let gElCanvas = document.querySelector('#my-canvas')
 let gEmojiIdx = 0
 const EMOJI_SIZE = 4
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend', 'mousedown', 'mousemove', 'mouseup']
 const gCtx = gElCanvas.getContext('2d')
 let gStartPos = {}
-const memes = getMeme()
-const memeDetails = memes.lines
+const meme = getMeme()
+const memeDetails = meme.lines
 
-function onInit() {
+function onInitMemeEditor() {
     addMouseListeners()
     addTouchListeners()
     renderEmojisToDOM()
@@ -75,7 +75,6 @@ function getEvPos(ev) {
     }
     // Check if its a touch ev
     if (ev.type.startsWith('touch')) {
-        console.log(ev)
         //soo we will not trigger the mouse ev
         ev.preventDefault()
         //Gets the first touch point
@@ -91,45 +90,37 @@ function getEvPos(ev) {
 
 
 function renderMeme(img) {
+    const currMeme = getMeme()
     let elImg = new Image()
     if (img) {
         elImg = img
-    } else if (memes.selectedImgId !== null) {
-        elImg.src = `images/${memes.selectedImgId}.jpg`
+    } else if (currMeme.selectedImgId !== null) {
+        elImg.src = `images/${currMeme.selectedImgId}.jpg`
     }
     elImg.onload = () => {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
-        fillTextinCanvas(memeDetails, gCtx)
-        renderEmojisOnCanvas(memes)
+        fillTextinCanvas(currMeme.lines, gCtx)
+        renderEmojisOnCanvas(currMeme)
     }
-    if (memes.selectedImgId === null) {
-        fillTextinCanvas(memeDetails, gCtx)
+    if (currMeme.selectedImgId === null) {
+        fillTextinCanvas(currMeme.lines, gCtx)
     }
     updateMemeTextInput()
 }
 
 function renderEmojisOnCanvas(memes) {
+
     const selectedEmojiID = memes.selectedEmojis
     if (selectedEmojiID !== null) {
         selectedEmojiID.forEach((emojiID) => {
             const emojis = getEmojis()
-            const selectedEmoji = emojis[emojiID]
+            const selectedEmoji = emojis[emojiID.emoji]
             gCtx.font = '30px arial'
             gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2)
         })
     }
 
 }
-
-// if (memes.selectedImgId === 19) {
-//     console.log('555');
-//     gCtx.fillText(
-//         gMeme.lines[selectedLineIdx].txt,
-//         gElCanvas.width / 2,
-//         gElCanvas.height / 2,
-//     );
-// }
-
 
 function renderEmojisToDOM() {
     const emojis = getEmojis()
@@ -202,29 +193,34 @@ function fillTextinCanvas(memeDetails, gCtx) {
         gCtx.strokeText(memeString, canvasWidth, textY)
 
         gCtx.beginPath()
-        if (memeString.length > 0) {
-
-            if (line.align === 'center') {
-                gCtx.rect(
-                    canvasWidth - lineWidth / 2,
-                    canvasHeight - 0.5 * line.fontSize,
-                    lineWidth,
-                    lineHeight
-                );
-            } else if (line.align === 'end') {
-                gCtx.rect(
-                    canvasWidth - lineWidth,
-                    canvasHeight - 0.5 * line.fontSize,
-                    lineWidth,
-                    lineHeight
-                );
-            } else if (line.align === 'start') {
-                gCtx.rect(
-                    canvasWidth,
-                    canvasHeight - 0.5 * line.fontSize,
-                    lineWidth,
-                    lineHeight
-                );
+        if (memeString.length > 0 || (memeDetails.isSave)) {
+            switch (line.align) {
+                case 'center':
+                    gCtx.rect(
+                        canvasWidth - lineWidth / 2,
+                        canvasHeight - 0.5 * line.fontSize,
+                        lineWidth,
+                        lineHeight
+                    );
+                    break;
+                case 'end':
+                    gCtx.rect(
+                        canvasWidth - lineWidth,
+                        canvasHeight - 0.5 * line.fontSize,
+                        lineWidth,
+                        lineHeight
+                    );
+                    break;
+                case 'start':
+                    gCtx.rect(
+                        canvasWidth,
+                        canvasHeight - 0.5 * line.fontSize,
+                        lineWidth,
+                        lineHeight
+                    );
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -233,7 +229,10 @@ function fillTextinCanvas(memeDetails, gCtx) {
 }
 
 function downloadImg(elLink) {
-    const imgContent = gElCanvas.toDataURL('meme/jpeg')
+    gElCanvas = document.querySelector('#my-canvas')
+    onChangeRect()
+    renderMeme()
+    const imgContent = gElCanvas.toDataURL()
     elLink.href = imgContent
     elLink.download = 'generatedMeme'
 }
@@ -250,8 +249,18 @@ function onSetText(str) {
     renderMeme()
 }
 
+function onChangeFontSize(num) {
+    ChangeFontSize(num)
+    renderMeme()
+}
+
 function onSetFillColor(color) {
     setFillColor(color)
+    renderMeme()
+}
+
+function onChangeFont(font) {
+    changeFont(font)
     renderMeme()
 }
 
@@ -260,15 +269,6 @@ function onSetStrokeColor(color) {
     renderMeme()
 }
 
-function onChangeFontSize(num) {
-    ChangeFontSize(num)
-    renderMeme()
-}
-
-function onChangeFont(font) {
-    changeFont(font)
-    renderMeme()
-}
 
 function onDeleteText() {
     deleteText()
@@ -291,28 +291,41 @@ function onUploadImg() {
 }
 
 function onSaveMeme() {
-    saveMeme()
+    saveMeme(gElCanvas.toDataURL('meme/png'))
+}
+
+function onEditSavedMeme(id) {
+    updateMemeFromSaved(id)
+    onShowMemeEditor()
+    renderMeme()
 }
 
 function renderSavedMemes() {
     const savedMemes = getSavedMemes()
     const elSavedMemesContainer = document.querySelector('.saved-memes-container')
     elSavedMemesContainer.innerHTML = ''
-    savedMemes.forEach((meme) => {
-        const memeImgUrl = `images/${meme.selectedImgId}.jpg`
-        const memeEl = document.createElement('div')
-        memeEl.classList.add('meme')
-        memeEl.style.backgroundImage = `url(${memeImgUrl})`
-        elSavedMemesContainer.appendChild(memeEl)
-    })
+    let strHtmls = savedMemes.map((savedMeme, idx) => `<div class="saved-image"><img src="${savedMeme.imgurl}" alt="" onclick="onEditSavedMeme(${idx})"></div><button class="btn" <onclick="onDeleteSavedMeme(${idx})"><img src="ICONS/trash.png" alt="">></button>`)
+
+    // add delete/save/edit when have time
+    if (strHtmls.length) {
+        elSavedMemesContainer.innerHTML = strHtmls.join('')
+    }
+    else {
+        elSavedMemesContainer.dataset.trans = "saved-memes-message"
+    }
 }
 
 function getFonts() {
     let elFontElement = document.querySelector('.select-font')
-    let elFontOptionValues = [...elFontElement.options].map((o) => o.value)
+    let elFontOptionValues = [...elFontElement.options].map((option) => option.value)
     return elFontOptionValues
 }
 
 function clearCanvas() {
     gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
+}
+
+function onDeleteSavedMeme(idx) {
+    deleteSavedMeme(idx)
+    console.log('5555')
 }

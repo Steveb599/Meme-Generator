@@ -84,6 +84,10 @@ const gTrans = {
     'upload-image': {
         en: 'Upload an Image',
         he: 'לחץ על מנת להעלות תמונה'
+    },
+    'saved-memes-message': {
+        en: 'Oops..there are no saved memes yet',
+        he: 'אופס...עוד אין ממים שמורים'
     }
 }
 
@@ -116,5 +120,6 @@ function onSetLang(lang) {
     if (lang === 'he') document.body.classList.add('rtl')
     else document.body.classList.remove('rtl')
     gCurrLang = lang
+    changeLanguage(lang)
     doTrans()
 }

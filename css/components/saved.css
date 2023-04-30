@@ -5,12 +5,33 @@
     border-radius: 1em;
 }
 
+
 .saved-memes-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, 200px);
     grid-auto-flow: dense;
-    padding: 20px;
-    gap: 30px;
+    padding: 10px;
+    gap: 5px;
     margin: auto;
     text-align: center;
+    font-family: Poppins;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.saved-memes-container img {
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.saved-memes-container img:hover {
+    scale: 1.05;
+    opacity: 0.6;
+    box-shadow: 0 60px 80px rgba(0, 0, 0, 0.60), 0 45px 26px rgba(0, 0, 0, 0.14);
+}
+
+.saved-memes-container .btn {
+    background-color: red;
 }
