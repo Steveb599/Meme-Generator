@@ -43,6 +43,7 @@ function onShowSavedMemes() {
     elAboutSection.classList.add('hidden')
     elSavedMemes.classList.remove('hidden')
     doTrans()
+    renderSavedMemes()
 }
 
 function onShowMemeEditor() {
@@ -89,6 +90,3 @@ function changeLanguage(lang) {
     gLanguage = lang
 }
 
-function onDeleteSavedMeme() {
-    deleteSavedMeme()
-}

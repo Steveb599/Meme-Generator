@@ -9,8 +9,6 @@ const canvas = document.querySelector('#my-canvas')
 let gMeme = {
     selectedImgId: null,
     selectedLineIdx: 0,
-    selectedEmojis: [],
-    selectedEmojiIdx: 0,
     isSave: false,
     isEdit: false,
     lines: [
@@ -51,11 +49,6 @@ function setLineDrag(isDrag) {
     gMeme.lines[gMeme.selectedLineIdx].isDrag = isDrag
 }
 
-function setEmojiDrag(isDrag) {
-    gMeme.selectedEmojis[gMeme.selectedEmojiIdx].isDrag = isDrag
-}
-
-// Move the circle in a delta, diff from the pervious pos
 function moveLine(dx, dy) {
     gMeme.lines[gMeme.selectedLineIdx].pos.x += dx
     gMeme.lines[gMeme.selectedLineIdx].pos.y += dy
@@ -96,18 +89,27 @@ function isLineClicked(clickedPos) {
     return false
 }
 
-// function isEmojiClicked
 
 function updateLineIdx(idx) {
     gMeme.selectedLineIdx = idx
 }
 
-function updateEmojiIdx(idx) {
-    gMeme.selectedEmojiIdx = idx
-}
 
-function selectEmoji(sticker) {
-    gMeme.selectedEmojis.push({ emoji: sticker, isDrag: false })
+function selectEmoji(idx) {
+    gMeme.lines.push({
+        txt: gEmojis[idx],
+        fontSize: 25,
+        font: 'impact',
+        align: 'center',
+        colorFill: 'white',
+        colorStroke: 'black',
+        isDrag: false,
+        pos: {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+        },
+    }),
+        gMeme.selectedLineIdx = gMeme.lines.length - 1
 }
 
 function getMeme() {
@@ -122,8 +124,6 @@ function setImg(id) {
     gMeme.selectedImgId = id
     renderMeme()
 }
-
-
 
 function ChangeFontSize(num) {
     gMeme.lines[gMeme.selectedLineIdx].fontSize += num
@@ -144,12 +144,11 @@ function setStrokeColor(color) {
 function deleteText() {
     gMeme.lines[gMeme.selectedLineIdx].txt = ''
     if (gMeme.selectedLineIdx > 0) [gMeme.selectedLineIdx--]
-    gMeme.selectedEmojis = []
 }
 
 function deleteAllText() {
     gMeme.lines.forEach((line) => {
-        line.txt = ''
+        line.txt = (line.txt === 'Add meme text') ? 'Add meme text' : ''
     })
     updateMemeTextInput()
 }
@@ -202,7 +201,6 @@ function generateRandomMeme() {
     }
     gMeme.selectedImgId = randomImageId;
     gMeme.lines.forEach((line, idx) => {
-        gMeme.selectedEmojis = []
         if (idx < numOfLines) {
             gMeme.selectedLineIdx = idx
             line.txt = !idx ? randomString : secondRandomString
@@ -293,7 +291,6 @@ function doUploadImg(imgDataUrl, onSuccess) {
 function getEmojis() {
     return gEmojis
 }
-
 
 function moveLine(dx, dy) {
     gMeme.lines[gMeme.selectedLineIdx].pos.x += dx

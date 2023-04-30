@@ -31,7 +31,6 @@ function addTouchListeners() {
 function onDown(ev) {
     // Get the ev pos from mouse or touch
     const pos = getEvPos(ev)
-    // console.log('pos', pos)
     if (isLineClicked(pos)) {
         setLineDrag(true)
         //Save the pos we start from
@@ -100,7 +99,6 @@ function renderMeme(img) {
     elImg.onload = () => {
         gCtx.drawImage(elImg, 0, 0, gElCanvas.width, gElCanvas.height)
         fillTextinCanvas(currMeme.lines, gCtx)
-        renderEmojisOnCanvas(currMeme)
     }
     if (currMeme.selectedImgId === null) {
         fillTextinCanvas(currMeme.lines, gCtx)
@@ -108,19 +106,13 @@ function renderMeme(img) {
     updateMemeTextInput()
 }
 
-function renderEmojisOnCanvas(memes) {
-
-    const selectedEmojiID = memes.selectedEmojis
-    if (selectedEmojiID !== null) {
-        selectedEmojiID.forEach((emojiID) => {
-            const emojis = getEmojis()
-            const selectedEmoji = emojis[emojiID.emoji]
-            gCtx.font = '30px arial'
-            gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2)
-        })
-    }
-
+function renderEmojisOnCanvas() {
+    const currMeme = getMeme()
+    const selectedEmoji = currMeme.lines[currMeme.lines.length - 1].txt
+    gCtx.font = '30px arial'
+    gCtx.fillText(selectedEmoji, gElCanvas.width / 2, gElCanvas.height / 2)
 }
+
 
 function renderEmojisToDOM() {
     const emojis = getEmojis()
@@ -140,7 +132,7 @@ function renderEmojisToDOM() {
 
 function onSelectEmoji(idx) {
     selectEmoji(idx)
-    renderMeme()
+    renderEmojisOnCanvas()
 }
 
 function onPrevEmojis() {
@@ -230,11 +222,11 @@ function fillTextinCanvas(memeDetails, gCtx) {
 
 function downloadImg(elLink) {
     gElCanvas = document.querySelector('#my-canvas')
-    onChangeRect()
+    // onChangeRect()
     renderMeme()
     const imgContent = gElCanvas.toDataURL()
     elLink.href = imgContent
-    elLink.download = 'generatedMeme'
+    elLink.download = 'generatedMeme.jpg'
 }
 
 function onAddLine() {
@@ -292,6 +284,7 @@ function onUploadImg() {
 
 function onSaveMeme() {
     saveMeme(gElCanvas.toDataURL('meme/png'))
+    renderSavedMemes()
 }
 
 function onEditSavedMeme(id) {
@@ -304,14 +297,13 @@ function renderSavedMemes() {
     const savedMemes = getSavedMemes()
     const elSavedMemesContainer = document.querySelector('.saved-memes-container')
     elSavedMemesContainer.innerHTML = ''
-    let strHtmls = savedMemes.map((savedMeme, idx) => `<div class="saved-image"><img src="${savedMeme.imgurl}" alt="" onclick="onEditSavedMeme(${idx})"></div><button class="btn" <onclick="onDeleteSavedMeme(${idx})"><img src="ICONS/trash.png" alt="">></button>`)
-
-    // add delete/save/edit when have time
+    let strHtmls = savedMemes.map((savedMeme, idx) => `<div class="saved-image"><img src="${savedMeme.imgurl}" alt="" onclick="onEditSavedMeme(${idx})"><button class="btn btn-remove-saved" onclick="onDeleteSavedMeme(${idx})"><img src="ICONS/trash.png" alt="">></button></div>`)
     if (strHtmls.length) {
         elSavedMemesContainer.innerHTML = strHtmls.join('')
     }
     else {
         elSavedMemesContainer.dataset.trans = "saved-memes-message"
+        doTrans()
     }
 }
 
@@ -327,5 +319,4 @@ function clearCanvas() {
 
 function onDeleteSavedMeme(idx) {
     deleteSavedMeme(idx)
-    console.log('5555')
 }
