@@ -62,13 +62,13 @@ function isLineClicked(clickedPos) {
 
         switch (line.align) {
             case 'center':
-                rectX = line.pos.x - lineWidth / 2;
+                rectX = line.pos.x - lineWidth / 2
                 rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
                 rectWidth = lineWidth
                 rectHeight = lineHeight + line.fontSize * 0.7
                 break;
             case 'end':
-                rectX = line.pos.x - lineWidth;
+                rectX = line.pos.x - lineWidth
                 rectY = line.pos.y - lineHeight / 2 - line.fontSize * 0.7
                 rectWidth = lineWidth
                 rectHeight = lineHeight + line.fontSize * 0.7
